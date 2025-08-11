@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Classes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\StoreClassesRequest;
 use App\Http\Requests\UpdateClassesRequest;
@@ -95,16 +96,56 @@ public function index(Request $request)
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateClassesRequest $request, Classes $classes)
+
+    public function update(Request $request, $id)
     {
-        //
+    // start trans - using try and catch   - check validation from form request - save all result or rollback
+    //get data from id row - make validation rules - check name if repite or not -
+    $classes = classes::findOrFail($id);
+    $rules = [
+        'note' => 'required|string',//nullab
+    ];
+
+    if ($request->name == $classes->name) {
+        $rules['name'] = 'required|string|unique:classes,name,' . $id;
+    } else {
+        $rules['name'] = 'required|string';
+        }
+        //role validation
+    $request->validate($rules, [
+        'name.required' => 'اسم الفصل مطلوب',
+        'name.unique'   => 'اسم الفصل موجود بالفعل',
+        'note.required'  => 'الوصف مطلوب',//
+    ]);
+    DB::beginTransaction();
+    try {
+        $classes->update([
+            'name' => $request->name,
+            'note' => $request->note,
+        ]);
+        DB::commit();
+        session()->flash('Update');
+        // session()->flash('Update', 'تم التحديث بنجاح');
+    } catch (\Throwable $th) {
+        DB::rollBack();
+        Log::channel("class")->error($th->getMessage() . $th->getFile() . $th->getLine());
+        session()->flash('Error');
+    }
+    return redirect()->back();
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Classes $classes)
+    public function destroy($id)
     {
-        //
+    try {
+        classes::findOrFail($id)->delete();
+        session()->flash('Delete');
+    } catch (\Throwable $th) {
+        Log::channel("class")->error($th->getMessage() . $th->getFile() . $th->getLine());
+        session()->flash('Error');
+    }
+    return redirect()->back();
     }
 }

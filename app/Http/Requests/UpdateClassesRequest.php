@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateClassesRequest extends FormRequest
@@ -22,7 +23,17 @@ class UpdateClassesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|unique:classes,name',
+            'note'  => 'nullable|string',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'اسم الفصل مطلوب',
+            'note.string'  => 'الوصف مطلوب',
+            'name.unique'   => ' الفصل موجود فعلا',
         ];
     }
 }

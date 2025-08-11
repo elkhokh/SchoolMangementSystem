@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClassesController;
+use App\Http\Controllers\ClassSessionController;
 use App\Http\Controllers\ProfileController;
 // use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StudentsController;
@@ -11,8 +12,9 @@ use App\Http\Controllers\TeacherController;
 // use App\Http\Controllers\UserController;
 
 /********************************* Authentication Routes *************************************************** */
-
 require __DIR__.'/auth.php';
+
+// Route::middleware(['auth' , 'checkStatus'])->group(function(){
 
 Route::get('/', function () {
     return view('auth.login');
@@ -26,6 +28,7 @@ Route::resources([
     'teachers'   => TeacherController::class,
     'students'   => StudentsController::class,
     'subjects'   => SubjectsController::class,
+    'sessions'   => ClassSessionController::class,
 ]);
 
 /****************************************Dashboard******************************************************** */
@@ -62,6 +65,6 @@ Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'i
 Route::get('/{page}', [AdminController::class, 'index']);
 
 /**************************************************************************************************************/
-
+// });
 
 

@@ -12,7 +12,7 @@ class ClassSession extends Model
 
 
     protected $fillable = [
-        'class_id', 'subject_id', 'teacher_id', 'start_time', 'end_time', 'room',
+        'class_id', 'subject_id', 'teacher_id', 'start_time', 'end_time', 'day',
     ];
 
     public function class()

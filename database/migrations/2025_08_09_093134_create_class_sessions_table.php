@@ -18,7 +18,9 @@ return new class extends Migration
             $table->foreignId('teacher_id')->constrained('teachers')->onDelete('cascade');
             $table->dateTime('start_time');
             $table->dateTime('end_time');
-            $table->string('room')->nullable();
+            $table->enum('day', [
+                'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'
+    ]);
             $table->timestamps();
         });
     }

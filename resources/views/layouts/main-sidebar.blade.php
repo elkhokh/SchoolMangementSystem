@@ -58,7 +58,7 @@
                 <ul class="slide-menu">
             <li><a class="slide-item" href="{{ route('classes.index') }}" style="font-weight: bold;">قائمة الفصول</a></li>
             <li><a class="slide-item" href="{{ route('classes.create') }}" style="font-weight: bold;">إضافة فصل</a></li>
-            <li><a class="slide-item" href="{{ route('classes.index') }}" style="font-weight: bold;">جدول الفصول</a></li> {{-- لو عندك صفحة جدول مختلفة غير index، عدلها --}}
+            <li><a class="slide-item" href="{{ route('sessions.index') }}" style="font-weight: bold;">جدول الفصول</a></li> {{-- لو عندك صفحة جدول مختلفة غير index، عدلها --}}
 
                 </ul>
             </li>
@@ -66,22 +66,22 @@
             <!-- إدارة المواد -->
             <li class="side-item side-item-category" style="font-weight: bold;">إدارة المواد</li>
             <li class="slide">
-                <a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='#') }}"><svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg><span class="side-menu__label" style="font-weight: bold;">المواد الدراسية</span><i class="angle fe fe-chevron-down"></i></a>
+                <a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='subjects.index') }}"><svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg><span class="side-menu__label" style="font-weight: bold;">المواد الدراسية</span><i class="angle fe fe-chevron-down"></i></a>
                 <ul class="slide-menu">
-                    <li><a class="slide-item" href="{{ url('/' . $page='cards') }}" style="font-weight: bold;">قائمة المواد</a></li>
-                    <li><a class="slide-item" href="{{ url('/' . $page='draggablecards') }}" style="font-weight: bold;">إضافة مادة</a></li>
-                    <li><a class="slide-item" href="{{ url('/' . $page='grade-management') }}" style="font-weight: bold;">إدارة الدرجات</a></li>
+                    <li><a class="slide-item" href="{{ route('subjects.index') }}" style="font-weight: bold;">قائمة المواد</a></li>
+                    <li><a class="slide-item" href="{{ route('subject.create') }}" style="font-weight: bold;">إضافة مادة</a></li>
+                    <li><a class="slide-item" href="{{ route('subject.degree') }}" style="font-weight: bold;">إدارة الدرجات</a></li>
                 </ul>
             </li>
 
             <!-- إدارة المستخدمين -->
             <li class="side-item side-item-category" style="font-weight: bold;">إدارة المستخدمين</li>
             <li class="slide">
-                <a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='#') }}"><svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg><span class="side-menu__label" style="font-weight: bold;">المستخدمين</span><i class="angle fe fe-chevron-down"></i></a>
+                <a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='users') }}"><svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg><span class="side-menu__label" style="font-weight: bold;">المستخدمين</span><i class="angle fe fe-chevron-down"></i></a>
                 <ul class="slide-menu">
-                    <li><a class="slide-item" href="{{ url('/' . $page='mail') }}" style="font-weight: bold;">قائمة المستخدمين</a></li>
-                    <li><a class="slide-item" href="{{ url('/' . $page='mail-compose') }}" style="font-weight: bold;">تسجيل مستخدم جديد</a></li>
-                    <li><a class="slide-item" href="{{ url('/' . $page='permissions-edit') }}" style="font-weight: bold;">تعديل الصلاحيات</a></li>
+                    <li><a class="slide-item" href="{{ url('/' . $page='users.index') }}" style="font-weight: bold;">قائمة المستخدمين</a></li>
+                    <li><a class="slide-item" href="{{ url('/' . $page='users.create') }}" style="font-weight: bold;">تسجيل مستخدم جديد</a></li>
+                    <li><a class="slide-item" href="{{ url('/' . $page='roles.index') }}" style="font-weight: bold;">تعديل الصلاحيات</a></li>
                 </ul>
             </li>
 

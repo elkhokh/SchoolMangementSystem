@@ -34,6 +34,15 @@
                 })}
         </script>
     @endif
+    @if (session()->has('Update'))
+        <script>
+            window.onload = function() {
+                notif({
+                    msg: "تم التعديل الفصل بنجاح",
+                    type: "success"
+                })}
+        </script>
+    @endif
     @if (session()->has('Add'))
         <script>
             window.onload = function() {
@@ -47,22 +56,21 @@
         <script>
             window.onload = function() {
                 notif({
-                    msg: "تم حذف الفصل بنجاح",
-                    type: "success"
+                    msg: " حدث مشكلة اثناء حذف الفصل بنجاح",
+                    type: "danger"
                 })}
         </script>
     @endif
-
     <!-- row -->
 <div class="row">
 <div class="container mt-3">
     @if(session()->has('not_found'))
-    <div class="alert alert-warning alert-dismissible fade show fs-5 w-75 mx-auto text-center" role="alert">
-        <strong>{{ session('not_found') }}</strong>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
+<div class="alert alert-warning alert-dismissible fade show fs-5 w-75 mx-auto text-center" role="alert" style="background-color: #fff8e1; border-color: #ffecb3; color: #856404;">
+    <strong>{{ session('not_found') }}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
 @endif
     {{-- @if(session()->has('Error'))
     <div class="alert alert-warning alert-dismissible fade show fs-5 w-75 mx-auto text-center" role="alert">
@@ -72,6 +80,7 @@
         </button>
     </div>
 @endif --}}
+
 </div>
 <div class="col-xl-12">
     <div class="card mg-b-20 p-3">
@@ -112,7 +121,7 @@
                                 <td title="{{ $class->note}}">
                     {{ \Illuminate\Support\Str::limit($class->note , 20, '...')}}
     <td>
-        <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#editModal{{ $class->id}}">تعديل</button>
+        <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editModal{{ $class->id}}">تعديل</button>
         <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal{{ $class->id}}">حذف</button>
     </td>
             </tr>
@@ -236,5 +245,4 @@
         });
     @endif
 </script>
-
 @endsection

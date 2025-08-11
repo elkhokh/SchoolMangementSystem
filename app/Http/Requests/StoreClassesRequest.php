@@ -24,6 +24,12 @@ class StoreClassesRequest extends FormRequest
             return [
             'name' => 'required|string|unique:classes',
             'note'       =>   'nullable|string', // is not required
+            //    "name" => ["required" , "string" , "max:100" , function($attribute,$value,$fail){
+            //     // Closure-based Custom Validation Rule
+            //     if(str_contains($value,"Lesson")){
+            //         $fail(" $attribute  ميتفعش تضيف كلام فيه الكلمة دي");
+            //     }
+            // }],
         ];
     }
     public function messages()

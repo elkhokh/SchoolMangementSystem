@@ -17,7 +17,10 @@ class ClassesFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+        // 'name' => fake()->randomElement(['Class A', 'Class B', 'Class C','class d' ,'class f' ,'class g' ,'class n']),
+        // 'note' => fake()->sentence(),
+
         ];
+
     }
 }
