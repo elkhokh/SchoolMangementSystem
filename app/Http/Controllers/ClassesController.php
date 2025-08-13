@@ -105,7 +105,6 @@ public function index(Request $request)
     $rules = [
         'note' => 'required|string',//nullab
     ];
-
     if ($request->name == $classes->name) {
         $rules['name'] = 'required|string|unique:classes,name,' . $id;
     } else {

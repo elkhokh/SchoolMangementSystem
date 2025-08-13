@@ -1,39 +1,50 @@
 <?php
 
-namespace App\Http\Requests;
+// namespace App\Http\Requests;
 
-use Illuminate\Validation\Rule;
-use Illuminate\Foundation\Http\FormRequest;
+// use Illuminate\Validation\Rule;
+// use Illuminate\Foundation\Http\FormRequest;
+// use App\Models\Classes;
+// use Illuminate\Contracts\Validation\Validator;
+// use Illuminate\Http\Exceptions\HttpResponseException;
+// use App\Helpers\ApiResponse;
 
-class UpdateClassesRequest extends FormRequest
-{
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return true;
-    }
+// class UpdateClassesRequest extends FormRequest
+// {
+//     public function authorize(): bool
+//     {
+//         return true; // عدّلها لو عايز شروط أذونات
+//     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
-    public function rules(): array
-    {
-        return [
-            'name' => 'required|unique:classes,name',
-            'note'  => 'nullable|string',
-        ];
-    }
+//     public function rules(): array
+//     {
+//         $class = Classes::findOrFail($this->route()->parameter('id'));
+//         $rules = [
+//             'note' => 'required|string',
+//         ];
+//         if ($this->name == $class->name) {
+//             $rules['name'] = 'required|string|unique:classes,name,' . $class->id;
+//         } else {
+//             $rules['name'] = 'required|string|unique:classes,name';
+//         }
+//         return $rules;
+//     }
 
-    public function messages(): array
-    {
-        return [
-            'name.required' => 'اسم الفصل مطلوب',
-            'note.string'  => 'الوصف مطلوب',
-            'name.unique'   => ' الفصل موجود فعلا',
-        ];
-    }
-}
+//     public function messages(): array
+//     {
+//         return [
+//             'name.required' => 'اسم الفصل مطلوب',
+//             'name.unique' => 'اسم الفصل موجود بالفعل',
+//             'name.string' => 'اسم الفصل يجب أن يكون نصًا',
+//             'note.required' => 'الوصف مطلوب',
+//             'note.string' => 'الوصف يجب أن يكون نصًا',
+//         ];
+//     }
+
+//     protected function failedValidation(Validator $validator)
+//     {
+//         throw new HttpResponseException(
+//             ApiResponse::error('خطأ في التحقق من البيانات', $validator->errors()->toArray(), 422)
+//         );
+//     }
+// }

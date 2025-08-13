@@ -113,7 +113,8 @@
             </tr>
                 </thead>
                         <tbody>
-                            @php $i=1 @endphp
+                            {{-- @php $i=1 @endphp --}}
+                             @php $i = ($classes->currentPage()-1) * $classes->perPage() + 1; @endphp
                             @foreach($classes as $class)
                             <tr>
                                 <td>{{ $i++}}</td>
@@ -184,7 +185,7 @@
 <!-- add-->
 <div class="modal fade" id="modaldemo8" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
-        <form action="{{ route('classes.store') }}" method="POST">
+        <form action="{{ route('classes.store',$class->id) }}" method="POST">
             @csrf
             <div class="modal-content">
                 <div class="modal-header">
@@ -194,7 +195,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label>اسم الفصل</label>
-                        <input type="text" name="name" class="form-control" required>
+                        <input type="text" name="name" class="form-control" value="{{ old('name') }}>
                         @error('name')
                             <div class="text-danger mt-1">{{ $message }}</div>
                         @enderror

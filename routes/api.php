@@ -9,12 +9,6 @@ use App\Http\Controllers\Api\SubjectsController;
 use App\Http\Controllers\Api\ClassSessionController;
 
 
-// Route::apiResource('classes',ClassesController::class);
-// Route::apiResource('teachers', TeacherController::class);
-// Route::apiResource('students', StudentsController::class);
-// Route::apiResource('subjects', SubjectsController::class);
-// Route::apiResource('sessions', ClassSessionController::class);
-
 Route::apiResources([
     'classes'    => ClassesController::class,
     'teachers'   => TeacherController::class,
@@ -27,13 +21,17 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+
 /*
-//  Route::apiResource("posts", PostController::class);
+// Route::apiResource('classes',ClassesController::class);
+// Route::apiResource('teachers', TeacherController::class);
+// Route::apiResource('students', StudentsController::class);
+// Route::apiResource('subjects', SubjectsController::class);
+// Route::apiResource('sessions', ClassSessionController::class);
+
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
-
-
 
 
 Route::post("login", [AuthController::class, "login"])->middleware('throttle:5,1');// limit of login
@@ -45,11 +43,12 @@ Route::middleware("auth:sanctum")->group(function () {
 });
 
 
-// /api/posts = get => index
-// /api/posts = post => store
-// /api/posts/{id} = get => show
-// /api/posts/{id} = put => update
-// /api/posts/{id} = delete => destroy
-
+/api/classes      = get    => index
+/api/classes      = post   => store
+/api/classes/{id} = get    => show
+/api/classes/{id} = put    => update
+/api/classes/{id} = delete => destroy
 
 */
+
+

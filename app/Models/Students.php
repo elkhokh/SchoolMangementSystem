@@ -37,4 +37,9 @@ class Students extends Model
     {
         return $this->hasMany(StudentsAttachment::class, 'student_id');
     }
+        public function grades()
+    {
+        return $this->hasMany(Grade::class);
+    }
+    
 }

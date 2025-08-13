@@ -1,14 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ExamController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClassesController;
-use App\Http\Controllers\ClassSessionController;
 use App\Http\Controllers\ProfileController;
 // use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\StudentsController;
 use App\Http\Controllers\SubjectsController;
-use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\ClassSessionController;
 // use App\Http\Controllers\UserController;
 
 /********************************* Authentication Routes *************************************************** */
@@ -19,7 +20,10 @@ require __DIR__.'/auth.php';
 Route::get('/', function () {
     return view('auth.login');
 });
-
+/*************** livewire test ***************************************************************************** */
+// Route::get('/counter',function(){
+// return view('test');
+// });
 /************************************* route of pages ******************************************************* */
 
 // Route::resource('classses',ClassesController::class);
@@ -29,6 +33,7 @@ Route::resources([
     'students'   => StudentsController::class,
     'subjects'   => SubjectsController::class,
     'sessions'   => ClassSessionController::class,
+    'exams'   => ExamController::class,
 ]);
 
 /****************************************Dashboard******************************************************** */

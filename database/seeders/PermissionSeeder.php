@@ -27,12 +27,19 @@ $permissions = [
             'delete-user',
             'show-users',
 
+            'create-class',
+            'edit-class',
+            'delete-class',
+            'show-class',
+
+            'create-subject',
+            'edit-subject',
+            'delete-subject',
+            'show-subject',
+
             // 'print-invoice',
             // 'view-invoice',
             // 'show-invoice',
-            // 'create-invoice',
-            // 'edit-invoice',
-            // 'delete-invoice',
             // 'show-deleted-invoice',
             // 'edit-status-invoice',
             // 'excel-import-invoice',

@@ -69,10 +69,20 @@
                 <a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='subjects.index') }}"><svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg><span class="side-menu__label" style="font-weight: bold;">المواد الدراسية</span><i class="angle fe fe-chevron-down"></i></a>
                 <ul class="slide-menu">
                     <li><a class="slide-item" href="{{ route('subjects.index') }}" style="font-weight: bold;">قائمة المواد</a></li>
-                    <li><a class="slide-item" href="{{ route('subject.create') }}" style="font-weight: bold;">إضافة مادة</a></li>
-                    <li><a class="slide-item" href="{{ route('subject.degree') }}" style="font-weight: bold;">إدارة الدرجات</a></li>
+                    {{-- <li><a class="slide-item" href="{{ route('subjects.create') }}" style="font-weight: bold;">إضافة مادة</a></li> --}}
+                    <li><a class="slide-item" href="{{ route('subjects.index') }}" style="font-weight: bold;">إدارة الدرجات</a></li>
                 </ul>
             </li>
+
+<!-- إدارة الامتحانات -->
+<li class="side-item side-item-category" style="font-weight: bold;">إدارة الامتحانات</li>
+<li class="slide">
+    <a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='exams.index') }}"><svg class="side-menu__icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M19 2H9c-1.1 0-2 .9-2 2v14l4-4h8c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg><span class="side-menu__label" style="font-weight: bold;">إدارة الامتحانات</span><i class="angle fe fe-chevron-down"></i> </a>
+    <ul class="slide-menu">
+        <li><a class="slide-item" href="{{ route('exams.index') }}" style="font-weight: bold;">قائمة الامتحانات</a></li>
+        <li><a class="slide-item" href="{{ route('exams.create') }}" style="font-weight: bold;">إضافة امتحان</a></li>
+    </ul>
+</li>
 
             <!-- إدارة المستخدمين -->
             <li class="side-item side-item-category" style="font-weight: bold;">إدارة المستخدمين</li>
