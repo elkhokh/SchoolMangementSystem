@@ -1,129 +1,112 @@
 @extends('layouts.master')
+@section('title', 'إدارة المستخدمين')
 @section('css')
-
-@section('title')المستخدمين
-@stop
-
-<!-- Internal Data table css -->
-
-<link href="{{ URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" />
-<link href="{{ URL::asset('assets/plugins/datatable/css/buttons.bootstrap4.min.css') }}" rel="stylesheet">
-<link href="{{ URL::asset('assets/plugins/datatable/css/responsive.bootstrap4.min.css') }}" rel="stylesheet" />
-<link href="{{ URL::asset('assets/plugins/datatable/css/jquery.dataTables.min.css') }}" rel="stylesheet">
-<link href="{{ URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css') }}" rel="stylesheet">
-<!--Internal   Notify -->
-<link href="{{ URL::asset('assets/plugins/notify/css/notifIt.css') }}" rel="stylesheet" />
-
-
+    <link href="{{ URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" />
+    <link href="{{ URL::asset('assets/plugins/datatable/css/buttons.bootstrap4.min.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('assets/plugins/datatable/css/responsive.bootstrap4.min.css') }}" rel="stylesheet" />
+    <link href="{{ URL::asset('assets/plugins/datatable/css/jquery.dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
+    <!--Internal   Notify -->
+    <link href="{{ URL::asset('assets/plugins/notify/css/notifIt.css') }}" rel="stylesheet" />
 @endsection
+
 @section('page-header')
-<!-- breadcrumb -->
-<div class="breadcrumb-header justify-content-between">
-    <div class="my-auto">
-        <div class="d-flex">
-            <h4 class="content-title mb-0 my-auto">المستخدمين</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ قائمة
-                المستخدمين</span>
+    <!-- breadcrumb -->
+    <div class="breadcrumb-header justify-content-between">
+        <div class="my-auto">
+            <div class="d-flex">
+                <h4 class="content-title mb-0 my-auto">المستخدمين</h4>
+                <span class="text-muted mt-1 tx-13 mr-2 mb-0">/ قائمة المستخدمين</span>
+            </div>
         </div>
+        <div class="d-flex my-xl-auto right-content">
+        <a href="{{ route('users.create') }}" class="btn btn-primary btn-md">إضافة ادمن</a>
     </div>
-</div>
-<!-- breadcrumb -->
+    </div>
+    <!-- breadcrumb -->
 @endsection
-
 @section('content')
-    @if (session()->has('Delete'))
+    @if (session()->has('Add'))
         <script>
             window.onload = function() {
                 notif({
-                    msg: "تم حذف  المستخدم بنجاح",
+                    msg: "تم اضافة الادمن بنجاح",
                     type: "success"
                 })}
         </script>
     @endif
-    {{-- @if (session()->has('updateStates'))
-        <script>
-            window.onload = function() {
-                notif({
-                    msg: "تم تحديث حالة الدفع بنجاح",
-                    type: "success"
-                }) }
-        </script>
-    @endif --}}
-    {{-- @if (session()->has('restore_invoice'))
-        <script>
-            window.onload = function() {
-                notif({
-                    msg: "تم استعادة الفاتورة بنجاح",
-                    type: "success"
-                })}
-        </script>
-    @endif --}}
     @if (session()->has('Error'))
         <script>
             window.onload = function() {
                 notif({
-                    msg: "هناك خطا عند حذفا لمستخدم   ",
-                    type: "danger"
+                    msg: " حدث مشكلة اثناء حذف الادمن بنجاح",
+                    type: "info"
                 })}
         </script>
     @endif
-{{--@if (session('success'))--}}
-{{--    <div class="alert alert-success">--}}
-{{--        {{ session('success') }}--}}
-{{--    </div>--}}
-{{--@endif--}}
-{{-- @if (session()->has('success'))
-    <script>
-        window.onload = function() {
-            notif({
-                msg: "{{ session()->get('success') }} ",
-                type: "success"
-            })
-        }
+    @if (session()->has('Delete'))
+        <script>
+            window.onload = function() {
+                notif({
+                    msg: "تم حذف هذا المستخدم بنجاح",
+                    type: "success"
+                })}
+        </script>
+    @endif
 
-    </script>
+    <!-- row opened -->
+    <div class="row row">
+        <div class="container mt-3">
+    @if(session()->has('not_found'))
+<div class="alert alert-warning alert-dismissible fade show fs-5 w-75 mx-auto text-center" role="alert" style="background-color: #fff8e1; border-color: #ffecb3; color: #856404;">
+    <strong>{{ session('not_found') }}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
 @endif
-@if (session()->has('error'))
-    <script>
-        window.onload = function() {
-            notif({
-                msg: "{{ session()->get('error') }}",
-                type: "error"
-            })
-        }
 
-    </script>
-@endif --}}
-<!-- row opened -->
-<div class="row row-sm">
-    <div class="col-xl-12">
+</div>
+       <div class="col-xl-12">
         <div class="card">
-            <div class="card-header pb-0">
-                <div class="col-sm-1 col-md-2">
-                    @can('create-user')
-                        <a class="btn btn-primary btn-sm" href="{{ route('users.create') }}">اضافة مستخدم</a>
-                    @endcan
-                </div>
-            </div>
+   <div class="card-header pb-0">
+    <div class="d-flex justify-content-between flex-wrap align-items-center">
+
+             {{-- <a class="btn btn-success btn mb-2" href="{{ route('users.create') }}">
+            <i class="fas fa-plus"></i> إضافة مستخدم
+        </a> --}}
+        <!-- Search Form -->
+        <form method="GET" action="{{ route('users.index') }}" class="input-group mb-2" style="max-width: 400px;">
+            <input type="text" name="search" class="form-control" placeholder="ابحث بالاسم أو البريد أو الصلاحية" value="{{ request('search') }}">
+            <button class="btn btn-primary" type="submit">
+                <i class="fas fa-search"></i> بحث
+            </button>
+        </form>
+
+        <!-- Add Button -->
+
+    </div>
+</div>
+
             <div class="card-body">
                 <div class="table-responsive hoverable-table">
-                    <table class="table table-hover" id="example1" data-page-length='50' style=" text-align: center;">
+                    <table class="table table-hover" id="example1" data-page-length='50' style="text-align: center;">
                         <thead>
                             <tr>
-                                <th class="wd-10p border-bottom-0">#</th>
-                                <th class="wd-15p border-bottom-0">اسم المستخدم</th>
-                                <th class="wd-20p border-bottom-0">البريد الالكتروني</th>
-                                <th class="wd-5p border-bottom-0">حالة المستخدم</th>
-                                <th class="wd-15p border-bottom-0">نوع المستخدم</th>
-                                <th class="wd-10p border-bottom-0">العمليات</th>
-
-
+                                <th>#</th>
+                                <th>اسم المستخدم</th>
+                                <th>البريد الالكتروني</th>
+                                <th>حالة المستخدم</th>
+                                <th>صلاحية المستخدم</th>
+                                <th>العمليات</th>
                             </tr>
                         </thead>
                         <tbody>
-{{--                        @php $i = 0 ; @endphp--}}
-                            @foreach ($users as $key => $user)
+                        @php $i = ($users->currentPage()-1) * $users->perPage() + 1; @endphp
+                            @forelse ($users as $user)
                                 <tr>
-                                    <td>{{ $loop->iteration  }}</td>
+                                    <td>{{ $i++}}</td>
                                     <td class="fw-bold">{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>
@@ -137,7 +120,6 @@
                                             </span>
                                         @endif
                                     </td>
-
                                     <td>
                                         @if ($user->getRoleNames()->isNotEmpty())
                                             @foreach ($user->getRoleNames() as $role)
@@ -146,106 +128,49 @@
                                         @else
                                             <label class="badge badge-danger">غير معين</label>
                                         @endif
-
                                     </td>
-
                                     <td>
-                                        @can('edit-user')
-                                            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-info"
-                                                title="تعديل"><i class="las la-pen"></i></a>
-                                        @endcan
+                                        <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-info" title="تعديل"><i class="las la-pen"></i></a>
 
-                                        @can('delete-user')
-                                            {{-- <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
-                                                data-user_id="{{ $user->id }}" data-username="{{ $user->name }}"
-                                                data-toggle="modal" href="#modaldemo8" title="حذف"><i
-                                                    class="las la-trash"></i></a> --}}
-
-                <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline-block;"
-                    onsubmit="return confirm('هل أنت متأكد أنك تريد الحذف نهائيًا؟')">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-danger btn-sm">حذف</button></form>
-
-                                        @endcan
+                                        <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline-block;"
+                                            onsubmit="return confirm('هل أنت متأكد أنك تريد الحذف نهائيًا؟')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm">حذف</button>
+                                        </form>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="6">لا توجد بيانات لعرضها.</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
+
+                    <!-- Pagination -->
+                    <div class="d-flex justify-content-center mt-3">
+                        {{ $users->links() }}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <!--/div-->
-
-    <!-- Modal effects -->
-    {{-- <div class="modal" id="modaldemo8">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content modal-content-demo">
-                <div class="modal-header">
-                    <h6 class="modal-title">حذف المستخدم</h6><button aria-label="Close" class="close"
-                        data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
-                </div>
-                <form action="{{ route('users.destroy') }}" method="post">
-                    @csrf
-                    @method('DELETE')
-                    <div class="modal-body">
-                        <p>هل انت متاكد من عملية الحذف ؟</p><br>
-                        <input type="hidden" name="user_id" id="user_id" value="">
-                        <input class="form-control" name="username" id="username" type="text" readonly>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
-                        <button type="submit" class="btn btn-danger">تاكيد</button>
-                    </div>
-            </div>
-            </form>
-        </div>
-    </div>
-</div> --}}
-
 </div>
-<!-- /row -->
-</div>
-<!-- Container closed -->
-</div>
-<!-- main-content closed -->
 @endsection
+
 @section('js')
-<!-- Internal Data tables -->
 <script src="{{ URL::asset('assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
-<script src="{{ URL::asset('assets/plugins/datatable/js/dataTables.dataTables.min.js') }}"></script>
-<script src="{{ URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js') }}"></script>
-<script src="{{ URL::asset('assets/plugins/datatable/js/responsive.dataTables.min.js') }}"></script>
-<script src="{{ URL::asset('assets/plugins/datatable/js/jquery.dataTables.js') }}"></script>
 <script src="{{ URL::asset('assets/plugins/datatable/js/dataTables.bootstrap4.js') }}"></script>
 <script src="{{ URL::asset('assets/plugins/datatable/js/dataTables.buttons.min.js') }}"></script>
-<script src="{{ URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js') }}"></script>
-<script src="{{ URL::asset('assets/plugins/datatable/js/responsive.bootstrap4.min.js') }}"></script>
-<!--Internal  Datatable js -->
-<script src="{{ URL::asset('assets/js/table-data.js') }}"></script>
-<!--Internal  Notify js -->
+<script src="{{ URL::asset('assets/plugins/datatable/js/buttons.bootstrap4.min.js') }}"></script>
+<script src="{{ URL::asset('assets/plugins/datatable/js/jszip.min.js') }}"></script>
+<script src="{{ URL::asset('assets/plugins/datatable/js/pdfmake.min.js') }}"></script>
+<script src="{{ URL::asset('assets/plugins/datatable/js/vfs_fonts.js') }}"></script>
+<script src="{{ URL::asset('assets/plugins/datatable/js/buttons.html5.min.js') }}"></script>
+<script src="{{ URL::asset('assets/plugins/datatable/js/buttons.print.min.js') }}"></script>
+<script src="{{ URL::asset('assets/plugins/datatable/js/buttons.colVis.min.js') }}"></script>
+<script src="{{ URL::asset('assets/js/modal.js') }}"></script>
 <script src="{{ URL::asset('assets/plugins/notify/js/notifIt.js') }}"></script>
 <script src="{{ URL::asset('assets/plugins/notify/js/notifit-custom.js') }}"></script>
-<!-- Internal Modal js-->
-<script src="{{ URL::asset('assets/js/modal.js') }}"></script>
-
-{{-- <script>
-    $('#modaldemo8').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget)
-        var user_id = button.data('user_id')
-        var username = button.data('username')
-        var modal = $(this)
-        modal.find('.modal-body #user_id').val(user_id);
-        modal.find('.modal-body #username').val(username);
-
-        var form = modal.find('form');
-        var newActionUrl = '{{ route('users.destroy', '') }}' + '/' + user_id;
-        form.attr('action', newActionUrl);
-    })
-
-</script> --}}
-
-
 @endsection

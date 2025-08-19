@@ -58,11 +58,12 @@ class SubjectsController extends Controller
         ]);
         // session()->flash('Add', "تمت إضافة المادة بنجاح");
         session()->flash('Add');
-        return redirect()->back();
+        // return redirect()->back();
     } catch (\Exception $th) {
         Log::channel("class")->error($th->getMessage() . $th->getFile() . $th->getLine());
-        return redirect()->back()->with('Error', 'حدث خطأ أثناء تخزين المادة ');
+        session()->flash('Error');
     }
+    return redirect()->back();
     }
 
     /**
@@ -138,5 +139,35 @@ class SubjectsController extends Controller
         session()->flash('Error');
     }
     return redirect()->back();
+    }
+
+
+
+    public function delete_all(Request $request)
+    {
+        try {
+             // return $request ;
+            //start try
+            //1- it will return with ids likes 12,13,15,.... must make explode first on input
+            //2- check if $reques if empty or have value
+            // 3- start transactions and delete the all data in ids from subject and save that
+
+            $delete_all_id = explode(',', $request->input('delete_all_id'));
+        //check if
+            if (empty($delete_all_id) || $delete_all_id[0] === '') {
+                session()->flash('Error', 'لم يتم تحديد أي مواد لحذفها');
+                return redirect()->route('subjects.index');
+            }
+            DB::beginTransaction();
+            Subjects::whereIn('id', $delete_all_id)->delete();// delete data
+            DB::commit();
+            session()->flash('Delete');
+            return redirect()->route('subjects.index');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            Log::channel('subjects')->error($th->getMessage(). $th->getFile() . $th->getLine());
+            session()->flash('Error');
+            return redirect()->route('subjects.index');
+        }
     }
 }

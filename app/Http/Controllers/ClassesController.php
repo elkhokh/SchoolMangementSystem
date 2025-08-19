@@ -70,11 +70,12 @@ public function index(Request $request)
         ]);
         // session()->flash('Add', "تمت إضافة القسم بنجاح");
         session()->flash('Add');
-        return redirect()->back();
+
     } catch (\Exception $th) {
         Log::channel("class")->error($th->getMessage() . $th->getFile() . $th->getLine());
-        return redirect()->back()->with('Error', 'حدث خطأ أثناء تخزين الفصل ');
+        session()->flash('Error');
     }
+return redirect()->back();
     }
 
     /**

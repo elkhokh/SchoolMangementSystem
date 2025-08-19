@@ -26,16 +26,28 @@
             <li class="slide">
                 <a class="side-menu__item" href="{{ url('/' . $page='dashboard') }}"><svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg><span class="side-menu__label" style="font-weight: bold;">الرئيسية</span></a>
             </li>
+        <!-- إدارة المستخدمين -->
+            <li class="side-item side-item-category" style="font-weight: bold;">إدارة المستخدمين</li>
+            <li class="slide">
+                <a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='users') }}"><svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg><span class="side-menu__label" style="font-weight: bold;">المستخدمين</span><i class="angle fe fe-chevron-down"></i></a>
+                <ul class="slide-menu">
+                    <li><a class="slide-item" href="{{ route('users.index') }}" style="font-weight: bold;">قائمة المستخدمين</a></li>
+                    <li><a class="slide-item" href="{{ route('users.create') }}" style="font-weight: bold;">تسجيل ادمن جديد</a></li>
+                    {{-- <li><a class="slide-item" href="{{ route('users.student') }}" style="font-weight: bold;">تسجيل طالب جديد</a></li> --}}
+                    {{-- <li><a class="slide-item" href="{{ route('users.teacher') }}" style="font-weight: bold;">تسجيل مدرس جديد</a></li> --}}
+                    <li><a class="slide-item" href="{{ route('roles.index') }}" style="font-weight: bold;">تعديل الصلاحيات</a></li>
+                </ul>
+            </li>
 
             <!-- إدارة الطلاب -->
             <li class="side-item side-item-category" style="font-weight: bold;">إدارة الطلاب</li>
             <li class="slide">
-                <a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='invoices') }}"><svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg><span class="side-menu__label" style="font-weight: bold;">الطلاب</span><i class="angle fe fe-chevron-down"></i></a>
+                <a class="side-menu__item" data-toggle="slide" href="{{ route('students.index') }}"><svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg><span class="side-menu__label" style="font-weight: bold;">الطلاب</span><i class="angle fe fe-chevron-down"></i></a>
                 <ul class="slide-menu">
-                    <li><a class="slide-item" href="{{ url('/' . $page='invoices') }}" style="font-weight: bold;">قائمة الطلاب</a></li>
-                    <li><a class="slide-item" href="{{ url('/' . $page='chart-flot') }}" style="font-weight: bold;">إضافة طالب</a></li>
-                    <li><a class="slide-item" href="{{ url('/' . $page='student-details') }}" style="font-weight: bold;">تفاصيل الطالب</a></li>
-                    <li><a class="slide-item" href="{{ url('/' . $page='attendance-log') }}" style="font-weight: bold;">تسجيل الحضور اليومي</a></li>
+                    <li><a class="slide-item" href="{{  route('students.index') }}" style="font-weight: bold;">قائمة الطلاب</a></li>
+                    {{-- <li><a class="slide-item" href="{{ route('students.create') }}" style="font-weight: bold;">إضافة طالب</a></li> --}}
+                    {{-- <li><a class="slide-item" href="{{ route('students.index')}}" style="font-weight: bold;">تفاصيل الطالب</a></li> --}}
+                    <li><a class="slide-item" href="{{ route('students.index') }}" style="font-weight: bold;">تسجيل الحضور اليومي</a></li>
                 </ul>
             </li>
 
@@ -44,10 +56,10 @@
             <li class="slide">
                 <a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='#') }}"><svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg><span class="side-menu__label" style="font-weight: bold;">المعلمين</span><i class="angle fe fe-chevron-down"></i></a>
                 <ul class="slide-menu">
-                    <li><a class="slide-item" href="{{ url('/' . $page='cards') }}" style="font-weight: bold;">قائمة المعلمين</a></li>
-                    <li><a class="slide-item" href="{{ url('/' . $page='draggablecards') }}" style="font-weight: bold;">إضافة معلم</a></li>
-                    <li><a class="slide-item" href="{{ url('/' . $page='teacher-schedule') }}" style="font-weight: bold;">جدول المعلم</a></li>
-                    <li><a class="slide-item" href="{{ url('/' . $page='teacher-certificates') }}" style="font-weight: bold;">شهادات المعلم</a></li>
+                    <li><a class="slide-item" href="{{  route('teachers.index') }}" style="font-weight: bold;">قائمة المعلمين</a></li>
+                    {{-- <li><a class="slide-item" href="{{ url('/' . $page='draggablecards') }}" style="font-weight: bold;">إضافة معلم</a></li> --}}
+                    <li><a class="slide-item" href="{{  route('teachers.index') }}" style="font-weight: bold;">جدول المعلم</a></li>
+                    {{-- <li><a class="slide-item" href="{{ url('/' . $page='teacher-certificates') }}" style="font-weight: bold;">شهادات المعلم</a></li> --}}
                 </ul>
             </li>
 
@@ -84,16 +96,7 @@
     </ul>
 </li>
 
-            <!-- إدارة المستخدمين -->
-            <li class="side-item side-item-category" style="font-weight: bold;">إدارة المستخدمين</li>
-            <li class="slide">
-                <a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='users') }}"><svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg><span class="side-menu__label" style="font-weight: bold;">المستخدمين</span><i class="angle fe fe-chevron-down"></i></a>
-                <ul class="slide-menu">
-                    <li><a class="slide-item" href="{{ url('/' . $page='users.index') }}" style="font-weight: bold;">قائمة المستخدمين</a></li>
-                    <li><a class="slide-item" href="{{ url('/' . $page='users.create') }}" style="font-weight: bold;">تسجيل مستخدم جديد</a></li>
-                    <li><a class="slide-item" href="{{ url('/' . $page='roles.index') }}" style="font-weight: bold;">تعديل الصلاحيات</a></li>
-                </ul>
-            </li>
+
 
             <!-- إدارة الحضور والغياب -->
             <li class="side-item side-item-category" style="font-weight: bold;">إدارة الحضور والغياب</li>
@@ -114,6 +117,28 @@
                     <li><a class="slide-item" href="{{ url('/' . $page='reports-grades') }}" style="font-weight: bold;">تقرير الدرجات</a></li>
                     <li><a class="slide-item" href="{{ url('/' . $page='reports-stats') }}" style="font-weight: bold;">الإحصائيات العامة</a></li>
                     <li><a class="slide-item" href="{{ url('/' . $page='reports-subjects') }}" style="font-weight: bold;">تقرير المواد</a></li>
+                </ul>
+            </li>
+
+            <li class="side-item side-item-category" style="font-weight: bold;">الارشيف</li>
+            <li class="slide">
+                <a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='reports') }}"><svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M14 6h3v7.88l-2-2V6zM4 4v12l4-4h6l-4-4H4zm10 7v3.88l2 2V11h-2z" opacity=".3"/><path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg><span class="side-menu__label" style="font-weight: bold;">الارشيف</span><i class="angle fe fe-chevron-down"></i></a>
+                <ul class="slide-menu">
+                    <li><a class="slide-item" href="{{ url('/' . $page='reports-attendance') }}" style="font-weight: bold;">ارشيف الحضور</a></li>
+                    <li><a class="slide-item" href="{{ url('/' . $page='reports-grades') }}" style="font-weight: bold;">ارشيف الطلاب </a></li>
+                    <li><a class="slide-item" href="{{ url('/' . $page='reports-stats') }}" style="font-weight: bold;">ارشيف المدرسين </a></li>
+                    <li><a class="slide-item" href="{{ url('/' . $page='reports-subjects') }}" style="font-weight: bold;"> ارشيف المدفوعات</a></li>
+                </ul>
+            </li>
+
+            <li class="side-item side-item-category" style="font-weight: bold;">ادارة عمليات الدفع</li>
+            <li class="slide">
+                    <a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='reports') }}">
+
+        <svg class="side-menu__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg><span class="side-menu__label" style="font-weight: bold;">المدفوعات</span><i class="angle fe fe-chevron-down"></i> </a>
+                <ul class="slide-menu">
+                    <li><a class="slide-item" href="{{ url('/' . $page='reports-attendance') }}" style="font-weight: bold;"> قائمة المدفوعات</a></li>
+                    <li><a class="slide-item" href="{{ url('/' . $page='reports-grades') }}" style="font-weight: bold;"> اضافة عملية دفع</a></li>
                 </ul>
             </li>
 

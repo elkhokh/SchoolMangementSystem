@@ -61,49 +61,46 @@ return Application::configure(basePath: dirname(__DIR__))
     //         }
     //     }
     // });
-
+/***************************************************************************************************** */
     $exceptions->render(function (ValidationException $e, Request $request) {
     if ($request->is('api/*')) {
         return ApiResponse::error("Validation failed", $e->errors(), 422);
     }
 });
-
 $exceptions->render(function (ModelNotFoundException $e, Request $request) {
     if ($request->is('api/*')) {
-        return ApiResponse::error("Resource not found", ["detail" => "Requested resource not found."], 404);
+        return ApiResponse::error("Resource not found",
+        ["detail" => "Requested resource not found."], 404);
     }
 });
-
  //    to handle  NotFoundHttpException error
 $exceptions->render(function (NotFoundHttpException $e, Request $request) {
     if ($request->is('api/*')) {
         return ApiResponse::error("Endpoint not found", null, 404);
     }
 });
-
-    // to handle ThrottleRequestsException error
+    // to handle ThrottleRequestsException error and many request
 $exceptions->render(function (ThrottleRequestsException $e, Request $request) {
     if ($request->is('api/*')) {
-        return ApiResponse::error("Too many requests", null, 429);
+        return ApiResponse::error("Too many requests (login) ",[], 429);
     }
 });
-
 // SQLite error code 19
 $exceptions->render(function (QueryException $e, Request $request) {
     if ($request->is('api/*')) {
         if (isset($e->errorInfo[1]) && $e->errorInfo[1] == 19) { // unique violation in SQLite
-            return ApiResponse::error("Duplicate entry detected", ["detail" => "The class name already exists."], 409);
+            return ApiResponse::error("Duplicate entry detected",
+            ["detail" => "The class name already exists."], 409);
         }
     }
 });
-
 $exceptions->render(function (Throwable $e, Request $request) {
     if ($request->is('api/*')) {
         Log::error($e);
-        return ApiResponse::error("Unexpected error occurred", ["message" => $e->getMessage()], 500);
+        return ApiResponse::error("Unexpected error occurred",
+        ["message" => $e->getMessage()], 500);
     }
 });
-
     })
     ->create();
 

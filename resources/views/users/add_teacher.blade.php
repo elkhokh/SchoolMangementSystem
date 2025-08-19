@@ -1,5 +1,6 @@
+
 @extends('layouts.master')
-@section('title', 'اضافة مستخدم')
+@section('title', 'اضافة مدرس')
 @section('css')
 <!-- Internal Nice-select css  -->
 <link href="{{URL::asset('assets/plugins/jquery-nice-select/css/nice-select.css')}}" rel="stylesheet" />
@@ -17,10 +18,69 @@
 <!-- breadcrumb -->
 @endsection
 @section('content')
+    @if (session()->has('Add'))
+        <script>
+            window.onload = function() {
+                notif({
+                    msg: "تم اضافة الفصل بنجاح",
+                    type: "success"
+                })}
+        </script>
+    @endif
+    @if (session()->has('Error'))
+        <script>
+            window.onload = function() {
+                notif({
+                    msg: " حدث مشكلة اثناء حذف الفصل بنجاح",
+                    type: "danger"
+                })}
+        </script>
+    @endif
 <!-- row -->
 <div class="row">
 
     <div class="col-lg-12 col-md-12">
+        {{-- @if($errors->has('error'))
+            <div class="alert alert-danger">
+                {{ $errors->first('error') }}
+            </div>
+        @endif
+        @if (count($errors) > 0)
+        <div class="alert alert-danger">
+            <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>خطا</strong>
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+
+            @if (session()->has('success'))
+                <script>
+                    window.onload = function() {
+                        notif({
+                            msg: "{{session()->get('success')}}",
+                            type: "success"
+                        })
+                    }
+
+                </script>
+            @endif
+            @if (session()->has('error'))
+                <script>
+                    window.onload = function() {
+                        notif({
+                            msg: "{{session()->get('error')}}",
+                            type: "error"
+                        })
+                    }
+
+                </script>
+            @endif --}}
 
         <div class="card">
             <div class="card-body">
@@ -38,7 +98,7 @@
                         <div class="row mg-b-20">
                             <div class="parsley-input col-md-6" id="fnWrapper">
                                 <label>اسم المستخدم: <span class="tx-danger">*</span></label>
-                                <input class="form-control form-control mg-b-20"
+                                <input class="form-control form-control-sm mg-b-20"
                                     data-parsley-class-handler="#lnWrapper" name="name" required="" type="text">
                                     @error('name')
     <div class="text-danger">{{ $message }}</div>
@@ -47,7 +107,7 @@
 
                             <div class="parsley-input col-md-6 mg-t-20 mg-md-t-0" id="lnWrapper">
                                 <label>البريد الالكتروني: <span class="tx-danger">*</span></label>
-                                <input class="form-control form-control mg-b-20"
+                                <input class="form-control form-control-sm mg-b-20"
                                     data-parsley-class-handler="#lnWrapper" name="email" required="" type="email">
                                     @error('email')
     <div class="text-danger">{{ $message }}</div>
@@ -60,7 +120,7 @@
                     <div class="row mg-b-20">
                         <div class="parsley-input col-md-6 mg-t-20 mg-md-t-0" id="lnWrapper">
                             <label>كلمة المرور: <span class="tx-danger">*</span></label>
-                            <input class="form-control form-control mg-b-20" data-parsley-class-handler="#lnWrapper"
+                            <input class="form-control form-control-sm mg-b-20" data-parsley-class-handler="#lnWrapper"
                                 name="password" required="" type="password">
                                 @error('password')
     <div class="text-danger">{{ $message }}</div>
@@ -69,7 +129,7 @@
 
                         <div class="parsley-input col-md-6 mg-t-20 mg-md-t-0" id="lnWrapper">
                             <label>تأكيد كلمة المرور: <span class="tx-danger">*</span></label>
-                            <input class="form-control form-control mg-b-20" data-parsley-class-handler="#lnWrapper"
+                            <input class="form-control form-control-sm mg-b-20" data-parsley-class-handler="#lnWrapper"
                                 name="password_confirmation" required type="password">
                                 @error('password_confirmation')
     <div class="text-danger">{{ $message }}</div>
@@ -78,8 +138,8 @@
 
 
                     </div>
-        <!-- العنوان -->
-                    {{-- <div class="row mg-b-20">
+       <!-- العنوان -->
+                    <div class="row mg-b-20">
                         <div class="col-md-6">
                             <label>العنوان</label>
                             <input class="form-control form-control-sm" name="address"
@@ -87,10 +147,10 @@
                                 @error('address')
     <div class="text-danger">{{ $message }}</div>
 @enderror
-                        </div> --}}
+                        </div>
 
                             <!-- الجيندر -->
-                        {{-- <div class="col-md-6">
+                        <div class="col-md-6">
                             <label>النوع</label>
                             <select name="gender" class="form-control nice-select custom-select">
                                 <option value="">اختر النوع</option>
@@ -101,7 +161,7 @@
     <div class="text-danger">{{ $message }}</div>
 @enderror
                         </div>
-                    </div> --}}
+                    </div>
 
                     <div class="row row-sm mg-b-20">
                         <div class="col-lg-6">
@@ -116,23 +176,25 @@
                         </div>
                     </div>
 
-<div class="col-md-6 mb-3">
-                            <label for="roles_name">صلاحية المستخدم (ملحوظة: قم باختيار الأدمن فقط): <span class="tx-danger">*</span></label>
+                    <div class="row mg-b-20">
+                        <div class="col-xs-12 col-md-12">
                             <div class="form-group">
-                                @foreach ($roles as $key => $role)
-                                    <div class="form-check my-2">
-                                        <input class="form-check-input"
-                                            type="checkbox"
-                                            name="roles_name[]"
-                                            id="role{{ $key }}"
-                                            value="{{ $role }}"
-                                            {{ $role !== 'admin' ? 'disabled' : '' }}>
-                                        <label class="form-check-label mx-4" for="role{{ $key }}">
-                                            {{ $role }}
-                                        </label>
-                                    </div>
-                                @endforeach
-                                @error('roles_name') <div class="text-danger">{{ $message }}</div> @enderror
+                                <label class="form-label"> صلاحية المستخدم</label>
+                                <div class="form-group ">
+                                    @foreach ($roles as $key => $role)
+                                        <div class="form-check my-2">
+                                            <input class="form-check-input"
+                                                type="checkbox"
+                                                name="roles_name[]"
+                                                id="role{{ $key }}"
+                                                value="{{ $role }}">
+                                            <label class="form-check-label mx-4" for="role{{ $key }}">
+                                                {{ $role }}
+                                        </div>
+                                    @endforeach
+
+                                </div>
+
                             </div>
                         </div>
                     </div>

@@ -5,12 +5,14 @@ use App\Http\Controllers\ExamController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClassesController;
 use App\Http\Controllers\ProfileController;
-// use App\Http\Controllers\RoleController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\StudentsController;
 use App\Http\Controllers\SubjectsController;
 use App\Http\Controllers\ClassSessionController;
-// use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserController;
+
+
 
 /********************************* Authentication Routes *************************************************** */
 require __DIR__.'/auth.php';
@@ -25,6 +27,11 @@ Route::get('/', function () {
 // return view('test');
 // });
 /************************************* route of pages ******************************************************* */
+Route::get('users/student', [UserController::class, 'getStudent'])->name('users.student');
+Route::get('users/teacher', [UserController::class, 'getTeacher'])->name('users.teacher');
+Route::post('users/add_student', [UserController::class, 'storeStudent'])->name('users.add_student');
+Route::post('subjects/delete_all', [SubjectsController::class, 'delete_all'])->name('subjects.delete_all');
+Route::post('users/add_teacher', [UserController::class, 'addTeacher'])->name('users.add_teacher');
 
 // Route::resource('classses',ClassesController::class);
 Route::resources([
@@ -46,12 +53,12 @@ Route::get('/dashboard', function () {
 /******************  Roles & Users (Auth Protected) *******************************************************/
 
 // Route::group(['middleware' => ['auth']], function() {
-//     // Route::resources([
-//     //     'roles' => RoleController::class,
-//     //     'users' => UserController::class,
-//     // ]);
-// Route::resource('roles', RoleController::class);
-// Route::resource('users', UserController::class);
+    // Route::resources([
+    //     'roles' => RoleController::class,
+    //     'users' => UserController::class,
+    // ]);
+Route::resource('roles', RoleController::class);
+Route::resource('users', UserController::class);
 // });
 
 /*********************************Profile (Auth Protected)************************************************** */
@@ -72,4 +79,4 @@ Route::get('/{page}', [AdminController::class, 'index']);
 /**************************************************************************************************************/
 // });
 
-
+/************************************************************************************************************* */

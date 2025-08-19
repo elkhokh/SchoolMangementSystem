@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class SubjectResource extends JsonResource
@@ -20,6 +21,7 @@ class SubjectResource extends JsonResource
             "name" => $this->name,
             "note" => $this->note,
             "degree" => $this->degree,
+            "UserAuth" => Auth::user()->email,
             // "created_at" => $this->created_at,
             // "updated_at" => $this->updated_at,
             "created_at" => $this->created_at ? $this->created_at->format('Y-m-d H:i:s') : null,//use carbon

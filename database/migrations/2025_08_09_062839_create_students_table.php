@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('class_id')->nullable()->constrained('classes')->onDelete('set null');
-            $table->string('gender');
+            $table->string('address')->nullable();
+            // $table->string('gender',20)->nullable();
+            $table->enum('gender', ['male', 'female'])->nullable();
             $table->date('birth_date')->nullable();
             $table->text('note')->nullable();
             $table->timestamps();

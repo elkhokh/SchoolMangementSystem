@@ -16,13 +16,13 @@ class SubjectsController extends Controller
     /**
      * Display a listing of the resource.
      */
-      public function index()
+    public function index()
     {
     // return subjects::all();
     // return ApiResponse::success(['subjects' =>Subjects::all() ],"Subjects retrieved successfully");
     // return ApiResponse::success(['subjects' =>Subjects::select('id', 'name')->paginate(3)],"Subjects retrieved successfully");
-
-return ApiResponse::success( [ "subjects" => SubjectResource::collection(Subjects::all()) ],"subjects retrieved successfully",200);
+//collection when i need to fetch all data but in show i need to show one data
+    return ApiResponse::success( [ "subjects" => SubjectResource::collection(Subjects::all()) ],"subjects retrieved successfully",200);
     }
 
     /**
@@ -50,7 +50,7 @@ public function store(StoreSubjectsRequest $request)
      */
     public function show(string $id)
     {
-        //
+        // to show one not collection 
     }
 
     /**

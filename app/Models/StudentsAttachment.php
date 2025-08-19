@@ -11,7 +11,6 @@ class StudentsAttachment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'student_id',
         'father_name',
         'mother_name',
         'parent_email',

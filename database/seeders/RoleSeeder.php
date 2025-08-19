@@ -17,8 +17,8 @@ class RoleSeeder extends Seeder
         // give roles
         $admin = Role::firstOrCreate(['name' => 'admin']);
         $teacher = Role::firstOrCreate(['name' => 'teacher']);
-        $student  = Role::firstOrCreate(['name' => 'stutent']);
-        $user  = Role::firstOrCreate(['name' => 'user']);
+        $student  = Role::firstOrCreate(['name' => 'student']);
+        // $user  = Role::firstOrCreate(['name' => 'user']);
 
         // admin roles have full access
         $admin->givePermissionTo(Permission::all());
@@ -44,8 +44,8 @@ class RoleSeeder extends Seeder
         ]);
 
         // user
-        $user->givePermissionTo([
-            // 'view-invoice'
-        ]);
+        // $user->givePermissionTo([
+        //     // 'view-invoice'
+        // ]);
     }
 }

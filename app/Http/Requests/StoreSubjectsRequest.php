@@ -36,10 +36,14 @@ class StoreSubjectsRequest extends FormRequest
         ];
     }
 
-    protected function failedValidation(Validator $validator)
-    {
+protected function failedValidation(Validator $validator)
+{
+    if ($this->expectsJson()) {
         throw new HttpResponseException(
             ApiResponse::error('خطأ في التحقق من البيانات', $validator->errors()->toArray(), 422)
         );
     }
+    parent::failedValidation($validator);
+}
+
 }

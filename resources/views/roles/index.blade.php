@@ -1,9 +1,10 @@
 @extends('layouts.master')
+@section('title', 'صلاحيات المستخدمين')
 @section('css')
     <!--Internal   Notify -->
     <link href="{{ URL::asset('assets/plugins/notify/css/notifIt.css') }}" rel="stylesheet" />
 @section('title')
-    صلاحيات المستخدمين - مورا سوفت للادارة القانونية
+
 @stop
 
 

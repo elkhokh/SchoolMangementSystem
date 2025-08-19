@@ -20,8 +20,15 @@
                     المواد</span>
             </div>
         </div>
-
+    <div class="d-flex my-xl-auto right-content">
+        <a href="#modaldemo8" class="btn btn-primary btn-md" data-effect="effect-scale" data-toggle="modal"> إضافة مادة</a>
     </div>
+    </div>
+        {{-- <div>
+                <a class="modal-effect btn btn-outline-primary" style="min-width: 300px;" data-effect="effect-scale" data-toggle="modal" href="#modaldemo8">
+                    إضافة مادة
+                </a>
+        </div> --}}
     <!-- breadcrumb -->
 @endsection
 @section('content')
@@ -29,7 +36,7 @@
         <script>
             window.onload = function() {
                 notif({
-                    msg: "تم حذف الفصل بنجاح",
+                    msg: "تم حذف المادة/المواد بنجاح",
                     type: "success"
                 })}
         </script>
@@ -38,7 +45,7 @@
         <script>
             window.onload = function() {
                 notif({
-                    msg: "تم التعديل الفصل بنجاح",
+                    msg: "تم التعديل المادة بنجاح",
                     type: "success"
                 })}
         </script>
@@ -47,7 +54,7 @@
         <script>
             window.onload = function() {
                 notif({
-                    msg: "تم اضافة الفصل بنجاح",
+                    msg: "تم اضافة المادة بنجاح",
                     type: "success"
                 })}
         </script>
@@ -56,7 +63,7 @@
         <script>
             window.onload = function() {
                 notif({
-                    msg: " حدث مشكلة اثناء حذف الفصل بنجاح",
+                    msg: " حدث مشكلة اثناء حذف المادة بنجاح",
                     type: "danger"
                 })}
         </script>
@@ -72,25 +79,19 @@
     </button>
 </div>
 @endif
-    {{-- @if(session()->has('Error'))
-    <div class="alert alert-warning alert-dismissible fade show fs-5 w-75 mx-auto text-center" role="alert">
-        <strong>{{ session('Error') }}</strong>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-@endif --}}
 
 </div>
 <div class="col-xl-12">
     <div class="card mg-b-20 p-3">
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
-            <div>
+            {{-- <div>
                 <a class="modal-effect btn btn-outline-primary" style="min-width: 300px;" data-effect="effect-scale" data-toggle="modal" href="#modaldemo8">
-                    إضافة فصل
+                    إضافة مادة
                 </a>
-            </div>
-
+            </div> --}}
+              <div>
+        <button type="button" class="modal-effect btn btn-outline-danger" id="btn_delete_all">حذف المواد المحددة</button>
+          </div>
             {{-- Search Form --}}
             <form method="GET" action="{{ route('classes.index') }}" class="d-flex" style="gap: 10px; max-width: 400px;">
                 {{-- <input type="text" name="search" class="form-control" placeholder="ابحث" value=" {{$search}}"> --}}
@@ -106,19 +107,21 @@
                         <table id="example1" class="table key-buttons text-md-nowrap" data-page-length='50'style="text-align: center">
                     <thead>
             <tr>
+                <th><input name="select_all" id="example-select-all" type="checkbox" onclick="CheckAll('box1', this)" /></th>
                 <th>#</th>
                 <th>اسم المادة</th>
-                <th>الوصف</th>
                 <th>الدرجة</th>
+                <th>الوصف</th>
                 <th>العمليات</th>
             </tr>
                 </thead>
                         <tbody>
                             {{-- @php $i=1 @endphp --}}
                             {{-- is code to contnuie the number of row data --}}
-                              @php $i = ($subjects->currentPage()-1) * $subjects->perPage() + 1; @endphp
+                        @php $i = ($subjects->currentPage()-1) * $subjects->perPage() + 1; @endphp
                             @foreach($subjects as $sub)
                             <tr>
+                                <td><input type="checkbox"  value="{{ $sub->id }}" class="box1" ></td>
                                 <td>{{ $i++}}</td>
                                 <td>{{ $sub->name}}</td>
                                 <td>{{ $sub->degree}}</td>
@@ -145,7 +148,7 @@
                     <div class="form-group">
                         <label>اسم المادة</label>
                         <input type="text" name="name" class="form-control"
-                               value="{{ old('name', $sub->name) }}">
+                            value="{{ old('name', $sub->name) }}">
                         @error('name')
                             <div class="text-danger mt-1">{{ $message }}</div>
                         @enderror
@@ -153,7 +156,7 @@
                     <div class="form-group">
                         <label>الدرجة الخاصة بالمادة</label>
                         <input type="number" name="degree" class="form-control"
-                               value="{{ old('degree', $sub->degree) }}">
+                            value="{{ old('degree', $sub->degree) }}">
                         @error('degree')
                             <div class="text-danger mt-1">{{ $message }}</div>
                         @enderror
@@ -166,7 +169,6 @@
                         @enderror
                     </div>
                 </div>
-
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">حفظ</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
@@ -175,7 +177,6 @@
         </form>
     </div>
 </div>
-
 
             <!-- delete -->
             <div class="modal fade" id="deleteModal{{$sub->id}}" tabindex="-1" role="dialog">
@@ -248,10 +249,32 @@
         </form>
     </div>
 </div>
-
+<!-- Delete All Modal -->
+    <div class="modal fade" id="delete_all" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 style="font-family: 'Cairo', sans-serif;" class="modal-title" id="exampleModalLabel">تأكيد حذف المواد المحددة</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('subjects.delete_all') }}" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <p>هل أنت متأكد من حذف جميع المواد المحددة؟</p>
+                        <input class="text" type="hidden" id="delete_all_id" name="delete_all_id" value="">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">تراجع</button>
+                        <button type="submit" class="btn btn-danger">تأكيد</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 @endsection
-
 @section('js')
 <!-- Internal Data tables -->
 <script src="{{ URL::asset('assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
@@ -270,7 +293,31 @@
 <!--Internal  Notify js -->
 <script src="{{ URL::asset('assets/plugins/notify/js/notifIt.js') }}"></script>
 <script src="{{ URL::asset('assets/plugins/notify/js/notifit-custom.js') }}"></script>
+<script>
+// Select/Deselect all checkboxes
+        function CheckAll(className, elem) {
+            $('.' + className).prop('checked', $(elem).prop('checked'));
+        }
 
+        // Handle Delete All button click
+        $(document).ready(function () {
+            $('#btn_delete_all').on('click', function () {
+                var ids = [];
+                $('.box1:checked').each(function () {
+                    ids.push($(this).val());
+                });
+                if (ids.length > 0) {
+                    $('#delete_all_id').val(ids.join(','));
+                    $('#delete_all').modal('show');
+                } else {
+                    notif({
+                        msg: "يرجى تحديد مادة واحدة على الأقل",
+                        type: "warning"
+                    });
+                }
+            });
+        });
+    </script>
 
 <script>
     @if ($errors->any())

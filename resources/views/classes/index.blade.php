@@ -195,7 +195,9 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label>اسم الفصل</label>
-                        <input type="text" name="name" class="form-control" value="{{ old('name') }}>
+                        <input type="text" name="name" class="form-control">
+                        {{-- <input type="text" name="name" class="form-control" value="{{ old('name') }}> --}}
+
                         @error('name')
                             <div class="text-danger mt-1">{{ $message }}</div>
                         @enderror
