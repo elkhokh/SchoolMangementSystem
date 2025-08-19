@@ -144,19 +144,7 @@ public function store(Request $request)
     /**
      * Show the form for editing the specified resource.
      */
-// public function edit($id)
-// {
-//     // data from id and view
-//     try {
-//         $student = Students::with(['user', 'class', 'attachments'])->findOrFail($id);
-//         $classes = Classes::orderBy('id')->get();
-//         return view('students.edit', compact('student', 'classes'));
-//     } catch (\Exception $th) {
-//         Log::channel("user")->error($th->getMessage() . $th->getFile() . $th->getLine());
-//         session()->flash('Error');
-//         return redirect()->route('students.index');
-//     }
-// }
+
 public function edit($id)
 {
     // dd($id);
@@ -211,7 +199,7 @@ public function edit($id)
         ];
         $student->update($studentData);
 
-        
+
         $attachmentData = [
             'father_name' => $request->father_name,
             'mother_name' => $request->mother_name,
@@ -219,9 +207,10 @@ public function edit($id)
             'parent_phone' => $request->parent_phone ?? null,
             'note' => $request->note ?? null,
         ];
-
+        //steps
+    //check the first fi has file sec if send file delete the old file after that save new file or create new file if don't have
         if ($request->hasFile('file_name')) {
-            // حذف الملف القديم إذا كان موجود
+
             if ($student->attachments && $student->attachments->file_name && Storage::disk('public')->exists($student->attachments->file_name)) {
                 Storage::disk('public')->delete($student->attachments->file_name);
             }
@@ -230,21 +219,20 @@ public function edit($id)
             $url = Storage::disk('public')->putFileAs('student_file', $file, $fileName);
             $attachmentData['file_name'] = $url;
         }
-
-        // تحديث أو إنشاء سجل المرفق
+    // make process
         if ($student->attachments) {
             $student->attachments->update($attachmentData);
         } else {
             $student->attachments()->create($attachmentData);
         }
-
+    // ok man save data
         DB::commit();
-        session()->flash('Update', 'تم تحديث الطالب بنجاح');
+        session()->flash('Update');
         return redirect()->route('students.index');
     } catch (\Exception $th) {
         DB::rollBack();
-        Log::channel('user')->error($th->getMessage() . ' in ' . $th->getFile() . ' at line ' . $th->getLine());
-        session()->flash('Error', 'حدث خطأ أثناء تحديث الطالب');
+        Log::channel('user')->error($th->getMessage() .$th->getFile() . $th->getLine());
+        session()->flash('Error');
         return redirect()->route('students.edit', $id);
     }
 }
@@ -286,39 +274,3 @@ public function edit($id)
 
 }
 
-
-    // public function index()
-    // {
-    //     $students = Students::with(['user', 'class', 'attachments'])  ->orderBy('id', 'desc')->paginate(10);;
-    //     $classes = Classes::all();
-    //     return view('students.index', compact('students', 'classes'));
-    // }
-
-// public function index(Request $request)
-// {
-//     try {
-//         // get search from input request
-//         $search = $request->input('search');
-//         //get all data at time from new to old
-//         $query = Students::with(['user', 'class', 'attachments'])->latest('id');
-//         //start show search
-//         if ($search) {
-//             //passive function in laravel use in search to get data with relation
-//             /* بص الفكرا في السيرش هناان انا هروح ع الجدول  الطلاب ويروح ع العلاقة بتاعته مع اليوزر ويروح يبحث عن الداتا اللي انت ادتهالوا في السيرش
-//             */
-//             $query->whereHas('user', function($q) use ($search) {
-//                 $q->where('name', 'like', "%{$search}%");});
-//         }
-//         $students = $query->paginate(10)->withQueryString();
-//         if ($search && $students->isEmpty()) {
-//             return redirect()->route('students.index')
-//                 ->with('not_found', 'لا توجد نتائج مطابقة لبحثك')
-//                 ->with('search', $search);
-//         }
-//         return view('students.index', compact('students', 'search'));
-//     } catch (\Throwable $th) {
-//         Log::channel("user")->error($th->getMessage() . $th->getFile() . $th->getLine());
-//         session()->flash('Error');
-//         return view('students.index', ['students' => collect()]);
-//     }
-// }
