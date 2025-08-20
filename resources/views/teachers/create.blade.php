@@ -143,6 +143,7 @@
 </div>
                     </div>
 
+
                 <div class="col-md-12 mb-3">
     <label class="form-label">ملاحظات</label>
     <textarea class="form-control" name="note" rows="4" style="min-height: 2

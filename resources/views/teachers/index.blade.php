@@ -150,14 +150,14 @@
                 </button>
             </form>
 
-            <form action="{{ route('teachers.show', $teacher->id) }}" method="POST"
+            {{-- <form action="{{ route('teachers.show', $teacher->id) }}" method="POST"
                 onsubmit="return confirm('هل تريد نقل المدرس إلى الأرشيف؟');">
                 @csrf
                 @method('PUT')
                 <button type="submit" class="dropdown-item text-warning">
                     <i class="fas fa-exchange-alt"></i> نقل المدرس إلى الأرشيف
                 </button>
-            </form>
+            </form> --}}
 
             {{-- رؤية تفاصيل الطالب --}}
             <form action="{{ route('teachers.show', $teacher->id) }}" method="GET">

@@ -109,16 +109,22 @@ public function index(Request $request)
      */
 public function edit($id)
 {
+    //1- fetch teacher data with data has relation
+    //2- fetch subject to show check who make edit ?
+
     // dd($id);
     try {
             $teacher = Teacher::with(['user.roles', 'subject'])->findOrFail($id);
             $subjects = Subjects::orderBy('id')->get();
             if ($teacher->user->hasRole('admin') && $teacher->user->id !== auth()->id()) {
-                abort(403, 'لا تملك الصلاحيات لتعديل هذا المستخدم');
+                abort(403, 'do not have permission ya man');
             }
-            $roles = Role::pluck('name')->all();
-            $userRoles = $teacher->user->roles->pluck('name')->all();
-            return view('teachers.edit', compact('teacher', 'roles', 'userRoles', 'subjects'));
+
+            // $roles = Role::pluck('name')->all();
+            // $userRoles = $teacher->user->roles->pluck('name')->all();
+            // return view('teachers.edit', compact('teacher', 'roles', 'userRoles', 'subjects'));
+
+            return view('teachers.edit', compact('teacher', 'subjects'));
         } catch (\Exception $th) {
             Log::channel('user')->error($th->getMessage() . $th->getFile(). $th->getLine());
             session()->flash('Error');
@@ -131,7 +137,39 @@ public function edit($id)
      */
     public function update(UpdateTeacherRequest $request, Teacher $teacher)
     {
-        //
+      $teacher = Teacher::with(['user', 'subject'])->findOrFail( $teacher->id);
+
+    try {
+        DB::beginTransaction();
+
+        $userData = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'status' => $request->status,
+        ];
+        if ($request->filled('password')) {
+            $userData['password'] = Hash::make($request->password);
+        }
+        $teacher->user->update($userData);
+        // update data
+        $teacherData = [
+            'subject_id' => $request->subject_id ,
+            'gender' => $request->gender ,
+            'address' => $request->address ,
+            'specialization' => $request->specialization ,
+            'note' => $request->note ?? null,
+        ];
+        $teacher->update($teacherData);
+    // ok man save data
+        DB::commit();
+        session()->flash('Update');
+        return redirect()->route('teachers.index');
+    } catch (\Exception $th) {
+        DB::rollBack();
+        Log::channel('teacher')->error($th->getMessage() .$th->getFile() . $th->getLine());
+        session()->flash('Error');
+        return redirect()->route('teachers.edit',  $teacher->id);
+    }
     }
 
     /**
@@ -139,6 +177,18 @@ public function edit($id)
      */
     public function destroy(Teacher $teacher)
     {
-        //
+                try {
+        $teacher = Teacher::with(['user','subject'])->findOrFail($teacher->id);
+
+        // dd($id, $teacher);  // $teacher->delete();  // $student->forceDelete();// forece delete
+        $teacher->user->syncRoles([]);
+        $teacher->user->delete();
+        $teacher->delete();
+        session()->flash('Delete');
+        } catch (\Exception $th) {
+            Log::channel('user')->error($th->getMessage(). $th->getFile(). $th->getLine());
+            session()->flash('Error');
+        }
+        return redirect()->route('teachers.index');
     }
 }

@@ -42,9 +42,9 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <div class="mb-3 text-end">
+                {{-- <div class="mb-3 text-end">
                     <a class="btn btn-primary" href="{{ route('teachers.index') }}">رجوع</a>
-                </div>
+                </div> --}}
 
                 <form class="parsley-style-1" autocomplete="off" action="{{ route('teachers.update', $teacher->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
@@ -52,7 +52,7 @@
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="name">اسم الطالب: <span class="tx-danger">*</span></label>
+                            <label for="name">اسم المدرس: <span class="tx-danger">*</span></label>
                             <input class="form-control" name="name" type="text" value="{{ old('name', $teacher->user->name) }}">
                             @error('name') <div class="text-danger">{{ $message }}</div> @enderror
                         </div>
@@ -103,11 +103,11 @@
                             @error('gender') <div class="text-danger">{{ $message }}</div> @enderror
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="class_id">الفصل</label>
-                            <select name="class_id" class="form-control">
+                            <label for="subject_id">المادة</label>
+                            <select name="subject_id" class="form-control">
                                 <option value="">اختر الفصل</option>
                                 @foreach($subjects as $sub)
-                                    <option value="{{ $sub->id }}" {{ old('subject_id', $sub->subject_id) == $sub->id ? 'selected' : '' }}>
+                                    <option value="{{ $sub->id }}" {{ old('subject_id', $teacher->subject_id) == $sub->id ? 'selected' : '' }}>
                                         {{ $sub->name }}
                                     </option>
                                 @endforeach
@@ -125,23 +125,24 @@
                             </select>
                             @error('status') <div class="text-danger">{{ $message }}</div> @enderror
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="note">ملاحظات</label>
-                            <textarea class="form-control" name="note" rows="3">{{ old('note', $teacher->note) }}</textarea>
-                            @error('note') <div class="text-danger">{{ $message }}</div> @enderror
-                        </div>
+
+
+                    <div class="col-md-6 mb-3">
+    <label>رقم هاتف </label>
+    <div class="input-group">
+        <span class="input-group-text"><i class="fa fa-phone"></i></span>
+        <input class="form-control" name="phone" type="tel" value="{{ old('phone', $teacher->phone ?? '') }}" placeholder="">
+    </div>
+    @error('phone') <div class="text-danger">{{ $message }}</div> @enderror
+</div>
                     </div>
 
 
-                        <div class="col-md-6 mb-3">
-                            <label for="phone">رقم هاتف  </label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="fa fa-phone"></i></span>
-                                <input class="form-control" name="phone" type="tel" value="{{ old('phone', $teacher->phone ?? '') }}" placeholder="رقم الهاتف">
-                            </div>
-                            @error('phone') <div class="text-danger">{{ $message }}</div> @enderror
-                        </div>
-                    </div>
+                <div class="col-md-12 mb-3">
+    <label class="form-label">ملاحظات</label>
+<textarea class="form-control" name="note" rows="4" style="min-height: 100px; width:100%;">{{ old('note', $teacher->note) }}</textarea>
+    @error('note') <div class="text-danger">{{ $message }}</div> @enderror
+</div>
 
 
                     <div class="text-center mt-4">
