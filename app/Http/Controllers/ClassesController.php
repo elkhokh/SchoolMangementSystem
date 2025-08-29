@@ -27,6 +27,10 @@ class ClassesController extends Controller
 //         return redirect()->back();
 //     }
 // }
+public function classes(){
+    return view('attandances.classes');
+}
+
 
 public function index(Request $request)
 {

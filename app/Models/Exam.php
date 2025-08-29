@@ -10,7 +10,14 @@ class Exam extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name','subject_id','class_id','exam_date','mark','note', 'status',
+        'title',
+        'subject_id',
+        'teacher_id',
+        'status',
+        'start_time',
+        'end_time',
+        'time_of_exam',
+        'note'
     ];
 
 
@@ -18,14 +25,25 @@ class Exam extends Model
     {
         return $this->belongsTo(Subjects::class);
     }
-
-    public function class()
+    public function teacher()
     {
-        return $this->belongsTo(Classes::class);
+        return $this->belongsTo(Teacher::class);
     }
-
-    public function grades()
+    public function questions() //exam has many questions
     {
-        return $this->hasMany(Grade::class);
+        return $this->hasMany(Question::class);
     }
+public function studentExams()
+{
+    return $this->hasMany(StudentExam::class, 'exam_id');
+}
+    // public function class()
+    // {
+    //     return $this->belongsTo(Classes::class);
+    // }
+
+    // public function grades()
+    // {
+    //     return $this->hasMany(Grade::class);
+    // }
 }

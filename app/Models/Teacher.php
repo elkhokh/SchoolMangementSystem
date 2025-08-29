@@ -38,7 +38,20 @@ class Teacher extends Model
     {
         return $this->hasMany(ClassSession::class, 'teacher_id');
     }
+    public function exams(){
+        return $this->hasMany(Exam::class);}
 
+    // public function attendances()
+    // {
+    //     return $this->hasMany(Attendances::class, 'teacher_id');
+    // }
+    // local scope
+    // public function scopeSearch($QuerySearch, $sear)
+    // {
+    //     if ($sear) {
+    //     $QuerySearch->whereRelation('user', 'name', 'like', "%{$sear}%");
+    //     }
+    // }
 
 
 

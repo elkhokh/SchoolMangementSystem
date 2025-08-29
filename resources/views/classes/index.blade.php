@@ -22,6 +22,23 @@
         </div>
 
     </div>
+
+
+				<!-- breadcrumb -->
+
+                {{-- print email export --}}
+				{{-- <div class="breadcrumb-header justify-content-between">
+					<div class="my-auto">
+						<div class="d-flex">
+							<h4 class="content-title mb-0 my-auto">Utilities</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ Margin</span>
+						</div>
+					</div>
+					<div class="d-flex my-auto breadcrumb-right">
+						<button class="btn btn-outline-primary mr-3"><span class="icon-label"><i class="fa fa-envelope"></i></span> <span class="btn-text">Email</span></button> <button class="btn btn-outline-danger mr-3"><span class="icon-label"><i class="fa fa-print"></i></span> <span class="btn-text">Print</span></button> <button class="btn btn-success mr-3"><span class="icon-label"><i class="fa fa-download"></i></span> <span class="btn-text">Export</span></button>
+					</div>
+				</div> --}}
+				<!-- breadcrumb -->
+
     <!-- breadcrumb -->
 @endsection
 @section('content')
@@ -249,3 +266,29 @@
     @endif
 </script>
 @endsection
+				{{-- <div class="row">
+					<div class="col-lg-12 col-md-12">
+						<div class="card">
+							<div class="card-body">
+								<div>
+									<h6 class="card-title mb-1">File Upload</h6>
+									<p class="text-muted card-sub-title">Dropify is a jQuery plugin to create a beautiful file uploader that converts a standard <code>input type="file"</code> into a nice drag & drop zone with previews and custom styles.</p>
+								</div>
+								<div class="row mb-4">
+									<div class="col-sm-12 col-md-4">
+										<input type="file" class="dropify" data-height="200" />
+									</div>
+									<div class="col-sm-12 col-md-4 mg-t-10 mg-sm-t-0">
+										<input type="file" class="dropify" data-default-file="{{URL::asset('assets/img/photos/1.jpg')}}" data-height="200"  />
+									</div>
+									<div class="col-sm-12 col-md-4 mg-t-10 mg-sm-t-0">
+										<input type="file" class="dropify" disabled="disabled"  />
+									</div>
+								</div>
+								<div>
+									<input id="demo" type="file" name="files" accept=".jpg, .png, image/jpeg, image/png, html, zip, css,js" multiple>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div> --}}

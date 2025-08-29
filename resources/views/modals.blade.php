@@ -120,16 +120,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-sm-4 col-md-4">
-						<div class="card custom-card">
-							<div class="card-body">
-								<div>
-									<h6 class="card-title">Modal Success Alert Messages</h6>
-								</div>
-								<a class="btn ripple btn-success" data-target="#modaldemo4" data-toggle="modal" href="">View Demo</a>
-							</div>
-						</div>
-					</div>
+
 					<div class="col-sm-4 col-md-4">
 						<div class="card custom-card">
 							<div class="card-body">

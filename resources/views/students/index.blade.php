@@ -25,12 +25,21 @@
 @endsection
 
 @section('content')
-@if (session()->has('Add'))
+{{-- @if (session()->has('Add'))
 <script>
     window.onload = function() {
         notif({ msg: "تم إضافة الطالب بنجاح",
          type: "success", position: "center",
          timeout: 3000 });
+    }
+</script>
+@endif --}}
+
+
+@if (session()->has('Add'))
+<script>
+    window.onload = function() {
+        $('#modaldemo4').modal('show');
     }
 </script>
 @endif
@@ -94,13 +103,10 @@
                                 <th>النوع</th>
                                 <th>الحالة</th>
                                 <th>الصلاحيات</th>
-                                {{-- <th>اسم الأب</th>
-                                <th>اسم الأم</th>
-                                <th>بريد ولي الأمر</th>
-                                <th>هاتف ولي الأمر</th>
-                                <th>المرفقات</th> --}}
+                                <th>غياب اليوم</th>
+                                <th> عدد مرات الغياب</th>
+                                <th>الانذار</th>
                                 <th>الإجراءات</th>
-                                {{-- <th>الإجراءات</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -110,20 +116,9 @@
                                 <td>{{ $i++ }}</td>
                                 <td>{{ $student->user->name }}</td>
                                 <td>{{ $student->user->email }}</td>
-                                <td>{{ $student->class->name ?? 'غير محدد' }}</td>
+                                <td>{{ $student->class->name ?? 'مش معروف' }}</td>
                                 <td>{{ $student->gender == 'male' ? 'ذكر' : 'أنثى' }}</td>
-                                {{-- <td>{{ $student->user->status ? 'مفعل' : 'غير مفعل' }}</td> --}}
-                                {{-- <td>{{ $student->attachments->first()->father_name ?? 'غير محدد' }}</td>
-                                <td>{{ $student->attachments->first()->mother_name ?? 'غير محدد' }}</td>
-                                <td>{{ $student->attachments->first()->parent_email ?? 'غير محدد' }}</td>
-                                <td>{{ $student->attachments->first()->parent_phone ?? 'غير محدد' }}</td> --}}
-
-
-                                {{-- <td>{{ $student->attachments->father_name ?? 'غير محدد' }}</td>
-                                <td>{{ $student->attachments->mother_name ?? 'غير محدد' }}</td>
-                                <td>{{ $student->attachments->parent_email ?? 'غير محدد' }}</td>
-                                <td>{{ $student->attachments->parent_phone ?? 'غير محدد' }}</td> --}}
- {{-- <td>{{ \Illuminate\Support\Str::limit($invoice->note, 10, '..') }}</td> --}}
+        {{-- <td>{{ \Illuminate\Support\Str::limit($invoice->note, 10, '..') }}</td> --}}
                         <td>
                         @if ( $student->user->status  == 1)<span class="label text-success d-flex">
                         <div class="dot-label bg-success ml-1"></div>مفعل</span>
@@ -137,21 +132,33 @@
                         @endforeach
                         @else<label class="badge badge-danger">غير معين</label>@endif
                         </td>
-                        {{-- <td>
-                            @if(optional($student->attachments)->file_name)
-                 <a href="{{ Storage::url($student->attachments->file_name) }}" target="_blank">عرض المرفق</a>
-                                    @else
-                                        غير متوفر
-                                    @endif
-                                </td> --}}
-                                {{-- <td>
-                                    <a href="{{ route('students.edit', $student->id) }}" class="btn btn-sm btn-primary">تعديل</a>
-                                    <form action="{{ route('students.destroy', $student->id) }}" method="POST" style="display:inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('هل أنت متأكد من الحذف؟')">حذف</button>
-                                    </form>
-                                </td> --}}
+                        <td>
+        @php   $attendance_today = $student->attendances->first();      @endphp
+
+        @if($attendance_today)
+            <span class="{{ $attendance_today->attendence_status ? 'text-success' : 'text-danger' }}">
+                {{ $attendance_today->attendence_status ? 'حضور' : 'هربان ومحضرش' }}
+            </span>
+        @else
+            <span class="text-warning">متاخدش غيابه</span>
+        @endif
+    </td>
+
+ <td>
+        @php
+            $absenceCount = $student->attendances->where('attendence_status', 0)->count();
+        @endphp
+        {{ $absenceCount }}
+    </td>
+
+    {{-- الانذار --}}
+    <td>
+        @if($absenceCount > 2)
+            <span class="badge badge-danger">⚠️ انذار</span>
+        @else
+            <span class="badge badge-success">لا يوجد</span>
+        @endif
+    </td>
 
 <td>
     <div class="dropdown">
@@ -161,18 +168,16 @@
             العمليات <i class="fas fa-caret-down ml-1"></i>
         </button>
         <div class="dropdown-menu tx-13">
-            {{-- تعديل الطالب --}}
-            {{-- <form action="{{ route('students.edit', $student->id) }}" method="GET">
+
+{{-- edit student --}}
+            <form action="{{ route('students.edit', $student->id) }}" method="GET">
                 @csrf
                 <button type="submit" class="dropdown-item">
                     <i class="fas fa-edit text-primary"></i> تعديل بيانات الطالب
                 </button>
-            </form> --}}
+            </form>
 
-            <a href="{{ route('students.edit', $student->id) }}" class="dropdown-item">
-    <i class="fas fa-edit text-primary"></i> تعديل بيانات الطالب
-</a>
-            {{-- حذف الطالب --}}
+            {{-- delete  --}}
             <form action="{{ route('students.destroy', $student->id) }}" method="POST"
                 onsubmit="return confirm('هل أنت متأكد من الحذف؟');">
                 @csrf
@@ -182,17 +187,17 @@
                 </button>
             </form>
 
-            {{-- نقل الطالب الي الارشيف --}}
-            <form action="{{ route('students.show', $student->id) }}" method="POST"
+     {{--  archive --}}
+            {{-- <form action="{{ route('students.show', $student->id) }}" method="POST"
                 onsubmit="return confirm('هل تريد نقل الطالب إلى الأرشيف؟');">
                 @csrf
                 @method('PUT')
                 <button type="submit" class="dropdown-item text-warning">
                     <i class="fas fa-exchange-alt"></i> نقل الطالب إلى الأرشيف
                 </button>
-            </form>
+            </form> --}}
 
-            {{-- رؤية تفاصيل الطالب --}}
+           {{-- show --}}
             <form action="{{ route('students.show', $student->id) }}" method="GET">
                 @csrf
                 <button type="submit" class="dropdown-item">
@@ -213,14 +218,26 @@
 </td> --}}
                             </tr>
                             @endforeach
-                            {{ $students->links() }}
+
                         </tbody>
                     </table>
                 </div>
+                 {{ $students->links() }}
             </div>
         </div>
     </div>
 </div>
+
+<!-- Modal alert message --> <div class="modal fade" id="modaldemo4" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 380px;">
+         <div class="modal-content" style="border-radius: 16px; border: none; box-shadow: 0 20px 40px rgba(0,0,0,0.15);">
+            <div class="modal-body" style="padding: 30px 25px; text-align: center;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position: absolute; top: 15px; right: 20px; opacity: 0.6;">
+                     <span aria-hidden="true">&times;</span>
+                    </button> <i class="icon ion-ios-checkmark-circle-outline" style="font-size: 70px; color: #28a745; margin-bottom: 20px; display: inline-block;"></i>
+                     <h4 style="color: #28a745; font-size: 18px; font-weight: 600; margin-bottom: 25px;">تم اضافة الطالب بنجاح    </h4>
+                     <button type="button" class="btn" data-dismiss="modal" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); border: none; border-radius: 25px; padding: 10px 30px; color: white; font-weight: 600;"> متابعة </button>
+</div> </div> </div> </div>
 @endsection
 
 @section('js')

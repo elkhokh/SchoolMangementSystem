@@ -22,19 +22,29 @@ class StudentsController extends Controller
     /**
      * Display a listing of the resource.
      */
-public function index(Request $request)
+
+    public function index(Request $request)
 {
     try {
+        $today = date('Y-m-d');
         $search = $request->input('search');
-        $query = Students::with(['user', 'class'])->latest('id');
+        $students = Students::with([
+            'user',
+            'class',
+            // attandance today
+            'attendances' => function($attandance) use ($today) {$attandance->where('attendence_date', $today);},
+            'attendances'//all attendances for student
+            ])->latest('id');
+            // ->paginate(7);
+
         if ($search) {
-            $query->whereRelation('user', 'name', 'like', "%{$search}%");
+            $students->whereRelation('user', 'name', 'like', "%{$search}%");
         }
-        $students = $query->paginate(7);
+        $students = $students->paginate(7);
         if ($search && $students->isEmpty()) {
-        return redirect()->route('students.index')->with('not_found', 'لا توجد نتائج مطابقة لبحثك');
+            return redirect()->route('students.index')->with('not_found', 'مش موجود الطالب دا');
         }
-        return view('students.index', compact('students', 'search'));
+        return view('students.index', compact('students', 'search', 'today'));
     } catch (\Throwable $th) {
         Log::channel("user")->error($th->getMessage() . $th->getFile() . $th->getLine());
         session()->flash('Error');
@@ -42,6 +52,31 @@ public function index(Request $request)
     }
 }
 
+// public function index(Request $request)
+// {
+//     try {
+//         $today = date('Y-m-d');
+//         $search = $request->input('search');
+
+//     $all_dataStudent = Students::with(['user', 'class', 'attendances' => function($q) use ($today) {
+//             $q->where('attendence_date', $today);
+//         }])->latest('id');
+
+//         // $all_dataStudent = Students::with(['user', 'class'])->latest('id');
+//         // if ($search) {
+//         //     $all_dataStudent->whereRelation('user', 'name', 'like', "%{$search}%");
+//         // }
+//         $students = $all_dataStudent->paginate(7);
+//         if ($search && $students->isEmpty()) {
+//         return redirect()->route('students.index')->with('not_found', 'لا توجد نتائج مطابقة لبحثك');
+//         }
+//         return view('students.index', compact('students', 'search'));
+//     } catch (\Throwable $th) {
+//         Log::channel("user")->error($th->getMessage() . $th->getFile() . $th->getLine());
+//         session()->flash('Error');
+//         return view('students.index', ['students' => collect()]);
+//     }
+// }
 
     /**
      * Show the form for creating a new resource.

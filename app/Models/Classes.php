@@ -56,4 +56,8 @@ class Classes extends Model
 {
     return $this->hasMany(Exam::class, 'class_id');
 }
+public function attendances()
+    {
+        return $this->hasMany(Attendances::class, 'class_id');
+    }
 }

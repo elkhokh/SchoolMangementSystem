@@ -19,25 +19,33 @@ class TeacherController extends Controller
     /**
      * Display a listing of the resource.
      */
-public function index(Request $request)
+// first page use livewire
+    public function index()
 {
-    try {
-        $search = $request->input('search');
-        $query = Teacher::with(['user', 'subject'])->latest('id');
-        if ($search) {
-            $query->whereRelation('user', 'name', 'like', "%{$search}%");
-        }
-        $teachers = $query->paginate(7);
-        if ($search && $teachers->isEmpty()) {
-        return redirect()->route('teachers.index')->with('not_found', 'لا توجد نتائج مطابقة لبحثك');
-        }
-        return view('teachers.index', compact('teachers', 'search'));
-    } catch (\Throwable $th) {
-        Log::channel("teacher")->error($th->getMessage() . $th->getFile() . $th->getLine());
-        session()->flash('Error');
-        return view('teachers.index', ['teachers' => collect()]);
-    }
+    //use livewire
+    // i make the index page just containar to shwo livewire component 
+    return view('teachers.index');
 }
+
+// public function index(Request $request)
+// {
+//     try {
+//         $search = $request->input('search');
+//         $query = Teacher::with(['user', 'subject'])->latest('id');
+//         if ($search) {
+//             $query->whereRelation('user', 'name', 'like', "%{$search}%");
+//         }
+//         $teachers = $query->paginate(7);
+//         if ($search && $teachers->isEmpty()) {
+//         return redirect()->route('teachers.index')->with('not_found', 'لا توجد نتائج مطابقة لبحثك');
+//         }
+//         return view('teachers.index', compact('teachers', 'search'));
+//     } catch (\Throwable $th) {
+//         Log::channel("teacher")->error($th->getMessage() . $th->getFile() . $th->getLine());
+//         session()->flash('Error');
+//         return view('teachers.index', ['teachers' => collect()]);
+//     }
+// }
 
     /**
      * Show the form for creating a new resource.

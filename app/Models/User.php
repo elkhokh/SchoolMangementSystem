@@ -100,4 +100,18 @@ class User extends Authenticatable
     return $this->hasOne(Teacher::class, 'user_id');
         }
 
+        //scope to use in all search has relation with users
+//     public function scopeSearch($query, $term)
+// {
+    // if ($term) {
+//         $query->where('name', 'like', "%{$term}%");
+    // }
+// }
+
+    public function scopeSearch($QuerySearch, $sear)
+    {
+        if ($sear) {
+        $QuerySearch->where('name', 'like', "%{$sear}%");
+        }
+    }
 }

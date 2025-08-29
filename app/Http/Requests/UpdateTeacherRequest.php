@@ -20,25 +20,25 @@ class UpdateTeacherRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
- public function rules(): array
-    {
-        $teacher_id = $this->teacher ;  //$this->route('teacher')->id;
-        return [
+public function rules(): array
+{
+
+    $teacher = $this->teacher; // teacher == user_id
+    return [
         'name'           => 'required|string|max:255',
         // 'email' => 'required|email|unique:users,email',
-        'email'          => ['required','email',Rule::unique('users', 'email')->ignore($teacher_id, 'id'),],
+        'email'          => ['required','email', Rule::unique('users', 'email')->ignore($teacher->user_id)],
         'password'       => 'nullable|string|min:6|confirmed',
         'subject_id'     => 'required|exists:subjects,id',
         // 'phone' => 'nullable|string|max:20|unique:teachers,phone',
-        'phone'          => ['nullable','string','max:20',Rule::unique('teachers', 'phone')->ignore($teacher_id),],
+        'phone'          => ['nullable','string','max:20', Rule::unique('teachers', 'phone')->ignore($teacher->id)],
         'specialization' => 'nullable|string|max:255',
         'gender'         => 'required|in:male,female',
         'address'        => 'nullable|string|max:255',
         'note'           => 'nullable|string',
         'status'         => 'required|in:0,1',
-        ];
-    }
-
+    ];
+}
     public function messages(): array
     {
         return [

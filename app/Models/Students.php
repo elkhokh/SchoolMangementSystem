@@ -41,11 +41,25 @@ class Students extends Model
     // {
     //     return $this->hasMany(StudentsAttachment::class, 'student_id');
     // }
-
-
+    public function attendances()
+    {
+        return $this->hasMany(Attendances::class, 'student_id');
+    }
 
         public function grades()
     {
         return $this->hasMany(Grade::class);
     }
+
+public function studentExams()
+{
+    return $this->hasMany(StudentExam::class, 'student_id');
+}
+// public function payment(){
+//         return $this->hasOne(Payment::class);
+// }
+public function student()
+{
+    return $this->belongsTo(Students::class, 'student_id');
+}
 }

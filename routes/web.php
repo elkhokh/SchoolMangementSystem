@@ -2,17 +2,18 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ExamController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClassesController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\StudentsController;
 use App\Http\Controllers\SubjectsController;
+use App\Http\Controllers\AttendancesController;
+use App\Http\Controllers\StudentExamController;
 use App\Http\Controllers\ClassSessionController;
-use App\Http\Controllers\UserController;
-
-
+use App\Http\Controllers\PaymentController;
 
 /********************************* Authentication Routes *************************************************** */
 require __DIR__.'/auth.php';
@@ -29,9 +30,11 @@ Route::get('/', function () {
 /************************************* route of pages ******************************************************* */
 Route::get('users/student', [UserController::class, 'getStudent'])->name('users.student');
 Route::get('users/teacher', [UserController::class, 'getTeacher'])->name('users.teacher');
-Route::post('users/add_student', [UserController::class, 'storeStudent'])->name('users.add_student');
+// Route::post('users/add_student', [UserController::class, 'storeStudent'])->name('users.add_student');
 Route::post('subjects/delete_all', [SubjectsController::class, 'delete_all'])->name('subjects.delete_all');
-Route::post('users/add_teacher', [UserController::class, 'addTeacher'])->name('users.add_teacher');
+// Route::post('users/add_teacher', [UserController::class, 'addTeacher'])->name('users.add_teacher');
+Route::post('attendances/class', [ClassesController::class, 'classes'])->name('attendances.class');
+Route::get('/callback',[PaymentController::class,'callback'])->name('callback');
 
 // Route::resource('classses',ClassesController::class);
 Route::resources([
@@ -39,8 +42,11 @@ Route::resources([
     'teachers'   => TeacherController::class,
     'students'   => StudentsController::class,
     'subjects'   => SubjectsController::class,
+    'attandances'   => AttendancesController::class,
     'sessions'   => ClassSessionController::class,
     'exams'   => ExamController::class,
+    'student_exams'   => StudentExamController::class,
+    'payments' => PaymentController::class,
 ]);
 
 /****************************************Dashboard******************************************************** */
