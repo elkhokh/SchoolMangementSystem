@@ -105,7 +105,7 @@
                 </ul>
             </li>
 
-            <li class="side-item side-item-category" style="font-weight: bold;">التقارير</li>
+            {{-- <li class="side-item side-item-category" style="font-weight: bold;">التقارير</li>
             <li class="slide">
                 <a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='reports') }}"><svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M14 6h3v7.88l-2-2V6zM4 4v12l4-4h6l-4-4H4zm10 7v3.88l2 2V11h-2z" opacity=".3"/><path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg><span class="side-menu__label" style="font-weight: bold;">التقارير</span><i class="angle fe fe-chevron-down"></i></a>
                 <ul class="slide-menu">
@@ -114,9 +114,9 @@
                     <li><a class="slide-item" href="{{ url('/' . $page='reports-stats') }}" style="font-weight: bold;">الإحصائيات العامة</a></li>
                     <li><a class="slide-item" href="{{ url('/' . $page='reports-subjects') }}" style="font-weight: bold;">تقرير المواد</a></li>
                 </ul>
-            </li>
+            </li> --}}
 
-            <li class="side-item side-item-category" style="font-weight: bold;">الارشيف</li>
+            {{-- <li class="side-item side-item-category" style="font-weight: bold;">الارشيف</li>
             <li class="slide">
                 <a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='reports') }}"><svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M14 6h3v7.88l-2-2V6zM4 4v12l4-4h6l-4-4H4zm10 7v3.88l2 2V11h-2z" opacity=".3"/><path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg><span class="side-menu__label" style="font-weight: bold;">الارشيف</span><i class="angle fe fe-chevron-down"></i></a>
                 <ul class="slide-menu">
@@ -125,7 +125,7 @@
                     <li><a class="slide-item" href="{{ url('/' . $page='reports-stats') }}" style="font-weight: bold;">ارشيف المدرسين </a></li>
                     <li><a class="slide-item" href="{{ url('/' . $page='reports-subjects') }}" style="font-weight: bold;"> ارشيف المدفوعات</a></li>
                 </ul>
-            </li>
+            </li> --}}
 
             <li class="side-item side-item-category" style="font-weight: bold;">ادارة عمليات الدفع</li>
             <li class="slide">
@@ -134,7 +134,7 @@
         <svg class="side-menu__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg><span class="side-menu__label" style="font-weight: bold;">المدفوعات</span><i class="angle fe fe-chevron-down"></i> </a>
                 <ul class="slide-menu">
                     <li><a class="slide-item" href="{{ route('payments.index') }}" style="font-weight: bold;"> قائمة المدفوعات</a></li>
-                    <li><a class="slide-item" href="{{ route('payments.create') }}" style="font-weight: bold;"> اضافة عملية دفع</a></li>
+                    {{-- <li><a class="slide-item" href="{{ route('payments.create') }}" style="font-weight: bold;"> اضافة عملية دفع</a></li> --}}
                 </ul>
             </li>
 

@@ -14,6 +14,8 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
+    // 'curreny'=>env('APP_CURRENCY','USD'),
+    // 'payment_method'=>env('PAYMENT_METHOD','myfatoorah'),
 
     /*
     |--------------------------------------------------------------------------

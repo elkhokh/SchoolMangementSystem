@@ -35,11 +35,32 @@ return [
     |
     */
 
+    // in laravel
+//web = blade + csrf + session
+//api = token + json
+//في الارفيل انا بعرف الشخص اللي عامل لوجن دا من الكيه بتاعه واللي بسمي الجارد
     'guards' => [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        // 'admin' => [
+        //     'driver' => 'session',
+        //     'provider' => 'admins',
+        // ],
+        // 'student' => [
+        //     'driver' => 'session',
+        //     'provider' => 'students',
+        // ],
+        // 'teacher' => [
+        //     'driver' => 'session',
+        //     'provider' => 'parents',
+        // ],
+        // 'parent' =>[
+        //     'driver' =>'session',
+        //     'provider' =>'parents'
+        // ],
+
     ],
 
     /*
@@ -64,11 +85,6 @@ return [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
     ],
 
     /*

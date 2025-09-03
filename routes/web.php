@@ -14,12 +14,10 @@ use App\Http\Controllers\AttendancesController;
 use App\Http\Controllers\StudentExamController;
 use App\Http\Controllers\ClassSessionController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\TestController;
 
-/********************************* Authentication Routes *************************************************** */
-require __DIR__.'/auth.php';
 
-// Route::middleware(['auth' , 'checkStatus'])->group(function(){
-
+Route::get('test', [TestController::class, 'checkout'])->name('test');
 Route::get('/', function () {
     return view('auth.login');
 });
@@ -34,6 +32,7 @@ Route::get('users/teacher', [UserController::class, 'getTeacher'])->name('users.
 Route::post('subjects/delete_all', [SubjectsController::class, 'delete_all'])->name('subjects.delete_all');
 // Route::post('users/add_teacher', [UserController::class, 'addTeacher'])->name('users.add_teacher');
 Route::post('attendances/class', [ClassesController::class, 'classes'])->name('attendances.class');
+
 Route::get('/callback',[PaymentController::class,'callback'])->name('callback');
 
 // Route::resource('classses',ClassesController::class);
@@ -84,5 +83,8 @@ Route::get('/{page}', [AdminController::class, 'index']);
 
 /**************************************************************************************************************/
 // });
+/********************************* Authentication Routes *************************************************** */
+require __DIR__.'/auth.php';
 
+// Route::middleware(['auth' , 'checkStatus'])->group(function(){
 /************************************************************************************************************* */

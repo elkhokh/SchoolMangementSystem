@@ -5,16 +5,35 @@ namespace App\Http\Controllers;
 use App\Models\Payment;
 use App\Models\Students;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
+use App\Http\Requests\StorePaymentRequest;
 
 class PaymentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+    try{
+    $query = Payment::with('student.user');
+
+    if ($request->has('search')) {
+        $search = $request->get('search');
+        $query->whereHas('student.user', function($relation) use ($search) {
+        $relation->where('name', 'like', "%$search%");
+        });
+    }
+    $payments = $query->latest()->paginate(10);
+    return view('payment.index', ['payments'=>$payments]);
+        // return view('payment.index');
+        } catch (\Throwable $th) {
+        Log::channel("student")->error($th->getMessage() . $th->getFile() . $th->getLine());
+        session()->flash('Error');
         return view('payment.index');
+    }
     }
 
     /**
@@ -25,23 +44,52 @@ class PaymentController extends Controller
     $students= Students::with('user')->get();
     return view('payment.create',['students'=>$students]);
     }
-
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorePaymentRequest  $request)
     {
-        // dd($request->all());
-
+    // dd($request->all());                                           "_token" => "Wv7kJeoJVGwafV3GY8HgWfyxXkxA7OQGOgU0jKb4"
+//   "student_id" => "2"
+//   "payment_type" => "myfatoorah"
+//   "amount" => "2400"
         $amount_all= 5000;
         $student=Students::find($request->student_id);
 
+        DB::beginTransaction();
+    try {
+//cash
+        if ($request->payment_type === 'cash') {
+            Payment::create([
+                'student_id'   => $request->student_id,
+                'payment_type' => 'cash',
+                'payment_status' => 'paid',
+                'amount_all'   => $amount_all,
+                'remaining'    => $amount_all - $request->amount,
+                'current_paid' => $request->amount,
+            ]);
+
+            DB::commit();
+            session()->flash('success');
+            return redirect()->route('payments.index');
+        }
+        else {
+//MyFatoorah
     $response_payment= $this->sendPayment($request->amount , $student->user->name);
 
     $InvoiceId = $response_payment['Data']['InvoiceId'];
     $InvoiceURL = $response_payment['Data']['InvoiceURL'];
 
     // dd($response_payment);
+//       "IsSuccess" => true
+//   "Message" => "Invoice Created Successfully!"
+//   "ValidationErrors" => null
+//   "Data" => array:4 [▼
+//     "InvoiceId" => 6075551
+//     "InvoiceURL" => "https://demo.MyFatoorah.com/KWT/ie/01072607555141-2dc8d7c3"
+//     "CustomerReference" => null
+//     "UserDefinedField" => null
+
     Payment::create([
         'student_id'=> $request->student_id,
         'payment_type'=>$request->payment_type,
@@ -53,8 +101,15 @@ class PaymentController extends Controller
         'current_paid'=>$request->amount,
     ]);
 
+    DB::commit();
     return redirect($InvoiceURL);
-
+}
+    } catch (\Throwable $th) {
+        DB::rollBack();
+        Log::channel("student")->error( $th->getMessage().$th->getFile().$th->getLine());
+        session()->flash('Error');
+        return redirect()->route('payments.index');
+    }
     }
     public function sendPayment($amount , $student_name ){
         // method - header - body - url
@@ -82,15 +137,12 @@ class PaymentController extends Controller
 ];
         $res = Http::withHeaders([
             "Authorization"=>'Bearer '.env('MYFATOORAH_API_KEY'),
-        ])->withoutVerifying()->timeout(60)->acceptJson()->send('POST',$url,['json'=>$data ,
-            ]);
+        ])->withoutVerifying()->timeout(60)->acceptJson()->send('POST',$url,['json'=>$data]);
             return $res->json();
     }
-
     public function getStatusPayment($paymentId){
             //don't forget slash*********************************
-        $url =$url =env('MYFATOORAH_BASE_URL').'v2/GetPaymentStatus';
-
+        $url =env('MYFATOORAH_BASE_URL').'v2/GetPaymentStatus';
         $data= [
         "Key"=>$paymentId,
         "KeyType"=>"PaymentId",
@@ -102,6 +154,8 @@ class PaymentController extends Controller
             return $res->json();
     }
     public function callback(Request $request){
+        try {
+            DB::beginTransaction();
         // return $request;
     $paymentId= $request->paymentId;
     $get_status = $this->getStatusPayment($paymentId);
@@ -111,10 +165,8 @@ class PaymentController extends Controller
         $InvoiceId = $get_status['Data']['InvoiceId'];
         $InvoiceStatus =$get_status['Data']['InvoiceStatus'];
     }
-
     $payment=  Payment::where('payment_id',$InvoiceId)->first();
-
-//     	"Pending"
+//  "Pending"
 // "Paid"
 // "Canceled"
     if($InvoiceStatus == "Paid" ){
@@ -123,7 +175,10 @@ class PaymentController extends Controller
             "payment_status"=>"paid"
         ]
         );
-        return redirect()->route('payments.index')->with('success','payment successfully');
+        // return redirect()->route('payments.index')->with('success','payment successfully');
+        session()->flash('success');
+        DB::commit();
+        return redirect()->route('payments.index');
     }
     if($InvoiceStatus == "Canceled" ){
     $payment->update(
@@ -131,14 +186,21 @@ class PaymentController extends Controller
             "payment_status"=>"unpaid"
         ]
         );
-        return redirect()->route('payments.index')->with('error','payment failded');
+        session()->flash('Error');
+        DB::commit();
+        return redirect()->route('payments.index');
+        // return redirect()->route('payments.index')->with('error','payment failded');
     }
-    return redirect()->route('payments.index')->with('error','payment failded');
+    } catch (\Throwable $th) {
+            DB::rollBack();
+            Log::error("Payment Callback Error: " . $th->getMessage());
+        session()->flash('Error');
+        return redirect()->route('payments.index');
+        }
 
+    // return redirect()->route('payments.index')->with('error','payment failded');
     }
-    /**
-     * Display the specified resource.
-     */
+
     public function show(Payment $payment)
     {
         //

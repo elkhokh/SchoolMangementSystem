@@ -16,7 +16,7 @@ class LogRequestMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        Log::info("ip ".$request->ip());
+        // Log::info("ip ".$request->ip());
         return $next($request);
     }
 }
