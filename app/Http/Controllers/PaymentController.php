@@ -27,12 +27,12 @@ class PaymentController extends Controller
         });
     }
     $payments = $query->latest()->paginate(10);
-    return view('payment.index', ['payments'=>$payments]);
-        // return view('payment.index');
+    return view('admin.payment.index', ['payments'=>$payments]);
+        // return view('admin.payment.index');
         } catch (\Throwable $th) {
         Log::channel("student")->error($th->getMessage() . $th->getFile() . $th->getLine());
         session()->flash('Error');
-        return view('payment.index');
+        return view('admin.payment.index');
     }
     }
 
@@ -42,7 +42,7 @@ class PaymentController extends Controller
     public function create()
     {
     $students= Students::with('user')->get();
-    return view('payment.create',['students'=>$students]);
+    return view('admin.payment.create',['students'=>$students]);
     }
     /**
      * Store a newly created resource in storage.

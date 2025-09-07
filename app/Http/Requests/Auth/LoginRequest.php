@@ -41,11 +41,14 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+
+
+
+        if (! Auth::guard($this->getType())->attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
+                'email' => 'فشلت في تسجيل الدخول. تأكد من صحة البريد الإلكتروني وكلمة المرور.',
             ]);
         }
 
@@ -82,4 +85,27 @@ class LoginRequest extends FormRequest
     {
         return Str::transliterate(Str::lower($this->string('email')).'|'.$this->ip());
     }
+
+
+    public function getType()
+    {
+        if($this->checkType()) {
+            if($this->type == 'admin')
+            {
+                return 'web';
+            }
+            return $this->type;
+    }
+            return 'web';
+    }
+
+    public function checkType()
+    {
+        $types = ['admin' , 'student' , 'teacher'];
+        if(in_array($this->type, $types)){
+            return true;
+        }
+        return false;
+    }
+
 }

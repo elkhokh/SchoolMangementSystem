@@ -9,7 +9,6 @@ class Attendances extends Model
 {
     /** @use HasFactory<\Database\Factories\AttendancesFactory> */
     use HasFactory;
-
         protected $fillable=[
         'student_id',
         'class_id',

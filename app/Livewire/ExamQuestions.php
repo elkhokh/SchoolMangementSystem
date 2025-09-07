@@ -71,7 +71,7 @@ class ExamQuestions extends Component
 
 public function render()
 {
-    return view('livewire.exam-questions', [
+    return view('admin.livewire.exam-questions', [
         'questions' => $this->exam->questions()->with('options')->latest()->get(),
     ]);
 }

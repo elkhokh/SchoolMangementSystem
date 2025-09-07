@@ -16,23 +16,18 @@ use App\Http\Controllers\ClassSessionController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TestController;
 
-
-Route::get('test', [TestController::class, 'checkout'])->name('test');
 Route::get('/', function () {
-    return view('auth.login');
+    return redirect()->route('login');
+
 });
-/*************** livewire test ***************************************************************************** */
-// Route::get('/counter',function(){
-// return view('test');
-// });
+
 /************************************* route of pages ******************************************************* */
+Route::middleware('auth:web')->prefix('admin')->group(function(){
+
 Route::get('users/student', [UserController::class, 'getStudent'])->name('users.student');
 Route::get('users/teacher', [UserController::class, 'getTeacher'])->name('users.teacher');
-// Route::post('users/add_student', [UserController::class, 'storeStudent'])->name('users.add_student');
 Route::post('subjects/delete_all', [SubjectsController::class, 'delete_all'])->name('subjects.delete_all');
-// Route::post('users/add_teacher', [UserController::class, 'addTeacher'])->name('users.add_teacher');
 Route::post('attendances/class', [ClassesController::class, 'classes'])->name('attendances.class');
-
 Route::get('/callback',[PaymentController::class,'callback'])->name('callback');
 
 // Route::resource('classses',ClassesController::class);
@@ -51,17 +46,13 @@ Route::resources([
 /****************************************Dashboard******************************************************** */
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('admin.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
 /******************  Roles & Users (Auth Protected) *******************************************************/
 
-// Route::group(['middleware' => ['auth']], function() {
-    // Route::resources([
-    //     'roles' => RoleController::class,
-    //     'users' => UserController::class,
-    // ]);
+
 Route::resource('roles', RoleController::class);
 Route::resource('users', UserController::class);
 // });
@@ -77,14 +68,14 @@ Route::middleware('auth')->group(function () {
 // Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index'])->middleware('auth');
 Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
 
-/***************************************call pages using var with url******************************************/
-
-Route::get('/{page}', [AdminController::class, 'index']);
-
+});
 /**************************************************************************************************************/
 // });
 /********************************* Authentication Routes *************************************************** */
 require __DIR__.'/auth.php';
+require __DIR__.'/student.php';
+require __DIR__.'/teacher.php';
+
 
 // Route::middleware(['auth' , 'checkStatus'])->group(function(){
 /************************************************************************************************************* */

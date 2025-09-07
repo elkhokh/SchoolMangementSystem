@@ -11,36 +11,43 @@ use App\Http\Requests\UpdateStudentExamRequest;
 class StudentExamController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of available exams for the authenticated user.
      */
- public function index()
+    public function index()
     {
-        // جلب الامتحانات الخاصة بالطالب أو المتاحة له
-        $studentExams = Exam::with('teacher.user')
-            ->whereHas('studentExams', function($q){
-                $q->where('student_id', Auth::id());
+        // جلب الامتحانات المتاحة للمستخدم (مفعلة أو مرتبطة بالمستخدم)
+        $studentExams = Exam::with(['teacher.user', 'subject'])
+            ->where(function ($query) {
+                $query->whereHas('studentExams', function ($q) {
+                    $q->where('student_id', Auth::id());
+                })->orWhere('status', 1); // الامتحانات المفعلة
             })
-            ->orWhere('status', 1) // لو الامتحان مفعل
             ->latest()
             ->paginate(10);
 
-        return view('student_exams.index', compact('studentExams'));
+        return view('admin.student_exams.index', compact('studentExams'));
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified exam for the user to take.
      */
     public function show(Exam $exam)
     {
-        // رابط للـLivewire component للطالب لبدء الامتحان
-        return view('student_exams.show', compact('exam'));
+        // التأكد إن المستخدم مسجل دخوله
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'يجب تسجيل الدخول لأداء الامتحان.');
+        }
+
+        // السماح لأي مستخدم مسجل دخوله بدخول الامتحان
+        return view('admin.student_exams.show', compact('exam'));
     }
+
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        // لسه مش مستخدم
     }
 
     /**
@@ -48,23 +55,15 @@ class StudentExamController extends Controller
      */
     public function store(StoreStudentExamRequest $request)
     {
-        //
+        // لسه مش مستخدم
     }
-
-    /**
-     * Display the specified resource.
-     */
-    // public function show(StudentExam $studentExam)
-    // {
-    //     //
-    // }
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(StudentExam $studentExam)
     {
-        //
+        // لسه مش مستخدم
     }
 
     /**
@@ -72,7 +71,7 @@ class StudentExamController extends Controller
      */
     public function update(UpdateStudentExamRequest $request, StudentExam $studentExam)
     {
-        //
+        // لسه مش مستخدم
     }
 
     /**
@@ -80,6 +79,6 @@ class StudentExamController extends Controller
      */
     public function destroy(StudentExam $studentExam)
     {
-        //
+        // لسه مش مستخدم
     }
 }

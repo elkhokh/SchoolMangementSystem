@@ -1,8 +1,9 @@
 <div>
-    {{-- search --}}
-    <div class="mb-3 d-flex justify-content-start" style="gap: 10px; max-width: 400px;">
-        <input type="text" wire:model.live="search" class="form-control" placeholder="ابحث باسم المدرس">
-            {{-- var search >>>> to render automataic it will be send to Teacher Component --}}
+    {{-- Search --}}
+    <div class="mb-4 d-flex justify-content-start" style="gap: 10px; max-width: 600px;">
+        <div class="position-relative">
+            <input type="text" wire:model.live="search" class="form-control" placeholder="ابحث باسم المدرس...">
+        </div>
     </div>
 
     <div class="table-responsive">
@@ -30,12 +31,12 @@
                         <td>{{ $teacher->gender == 'male' ? 'ذكر' : 'أنثى' }}</td>
                         <td>
                             @if ($teacher->user->status == 1)
-                                <span class="label text-success d-flex">
-                                    <div class="dot-label bg-success ml-1"></div>مفعل
+                                <span class="label text-success d-flex align-items-center">
+                                    <div class="dot-label bg-success ml-1"></div> مفعل
                                 </span>
                             @else
-                                <span class="label text-danger d-flex">
-                                    <div class="dot-label bg-danger ml-1"></div>غير مفعل
+                                <span class="label text-danger d-flex align-items-center">
+                                    <div class="dot-label bg-danger ml-1"></div> غير مفعل
                                 </span>
                             @endif
                         </td>
@@ -50,25 +51,25 @@
                         </td>
                         <td>
                             <div class="dropdown">
-                                <button class="btn ripple btn-info btn-sm" data-toggle="dropdown" type="button">
-                                    العمليات <i class="fas fa-caret-down ml-1"></i>
+                                <button class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" type="button">
+                                    <i class="la la-cog mr-1"></i> العمليات
                                 </button>
                                 <div class="dropdown-menu tx-13">
                                     <a href="{{ route('teachers.edit', $teacher->id) }}" class="dropdown-item">
-                                        <i class="fas fa-edit text-primary"></i> تعديل بيانات المدرس
+                                        <i class="la la-edit text-primary mr-2"></i> تعديل بيانات المدرس
                                     </a>
                                     <form action="{{ route('teachers.destroy', $teacher->id) }}" method="POST"
                                         onsubmit="return confirm('هل أنت متأكد من الحذف؟');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="dropdown-item text-danger">
-                                            <i class="fas fa-trash-alt"></i> حذف المدرس
+                                            <i class="la la-trash-o mr-2"></i> حذف المدرس
                                         </button>
                                     </form>
                                     <form action="{{ route('teachers.show', $teacher->id) }}" method="GET">
                                         @csrf
                                         <button type="submit" class="dropdown-item">
-                                            <i class="fas fa-eye text-info"></i> رؤية تفاصيل المدرس
+                                            <i class="la la-eye text-info mr-2"></i> رؤية تفاصيل المدرس
                                         </button>
                                     </form>
                                 </div>
@@ -77,7 +78,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="8">لا توجد بيانات</td>
+                        <td colspan="8" class="text-center text-muted">لا توجد بيانات</td>
                     </tr>
                 @endforelse
             </tbody>
@@ -85,6 +86,4 @@
 
         {{ $teachers->links() }}
     </div>
-
-
 </div>

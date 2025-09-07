@@ -20,7 +20,7 @@ class ExamController extends Controller
                      ->latest()
                      ->paginate(15);
 
-        return view('exam.index', compact('exams'));
+        return view('admin.exam.index', compact('exams'));
     }
 
     /**
@@ -37,7 +37,7 @@ class ExamController extends Controller
                         return [$teacher->id => $teacher->user->name];
                     });
 
-        return view('exam.create', compact('subjects','teachers'));
+        return view('admin.exam.create', compact('subjects','teachers'));
     }
 
     /**
@@ -70,7 +70,7 @@ class ExamController extends Controller
      */
     public function show(Exam $exam)
     {
-return view('exam.show', compact('exam'));
+return view('admin.exam.show', compact('exam'));
     }
 
     /**

@@ -60,11 +60,11 @@ $query = User::query()->with('roles')->whereDoesntHave('student') ->whereDoesntH
             return redirect()->route('users.index')
                 ->with('not_found', 'لا توجد نتائج مطابقة لبحثك')->with('search', $search);
         }
-        return view('users.index', compact('users', 'search'));
+        return view('admin.users.index', compact('users', 'search'));
     } catch (\Throwable $th) {
         Log::channel("user")->error($th->getMessage() . $th->getFile() . $th->getLine());
         session()->flash('Error');
-        return view('users.index', ['users' => collect()]);
+        return view('admin.users.index', ['users' => collect()]);
     }
 }
 
@@ -74,7 +74,7 @@ $query = User::query()->with('roles')->whereDoesntHave('student') ->whereDoesntH
     public function create(): View
     {
         $roles = Role::query()->pluck('name')->all();
-        return view('users.create', compact('roles'));
+        return view('admin.users.create', compact('roles'));
     }
 
     /**
@@ -138,7 +138,7 @@ public function store(Request $request): RedirectResponse
     $roles = Role::pluck('name')->all();
     // fetch current roles
     $userRoles = $user->roles->pluck('name')->all();
-    return view('users.edit', compact('user', 'roles', 'userRoles'));
+    return view('admin.users.edit', compact('user', 'roles', 'userRoles'));
 }
 
 /**
@@ -228,24 +228,24 @@ public function destroy($id): RedirectResponse
 }
 
 public function getStudent(){
-    // return view('users.add_student');
+    // return view('admin.users.add_student');
     $roles = Role::query()->pluck('name')->all();
     // $classes = Classes::all();
     $classes = Classes::orderBy('id')->get();
-    return view('users.add_student', compact('roles', 'classes'));
-    // return view('users.add_student', compact('roles'));
+    return view('admin.users.add_student', compact('roles', 'classes'));
+    // return view('admin.users.add_student', compact('roles'));
 }
 public function getTeacher(){
     $roles = Role::query()->pluck('name')->all();
-    return view('users.add_teacher', compact('roles'));
-    // return view('users.add_teacher');
+    return view('admin.users.add_teacher', compact('roles'));
+    // return view('admin.users.add_teacher');
 }
 
 public function addStudent(Request $request){
-    // return view('users.add-student');
+    // return view('admin.users.add-student');
 }
 public function addTeacher(Request $request){
-    // return view('users.add-teacher');
+    // return view('admin.users.add-teacher');
 }
 
 public function storeStudent(Request $request)
@@ -393,12 +393,12 @@ public function storeStudent(Request $request)
 //  {
 //     try {
 //         $users = User::query()->latest('id')->with('roles')->paginate(7);
-//         return view('users.index', compact('users'));
+//         return view('admin.users.index', compact('users'));
 //     } catch (\Throwable $th) {
 //     Log::channel("user")->error( $th->getMessage() . $th->getFile(). $th->getLine());
 //         session()->flash('Error');
 //         // can return empty page or error
-//         return view('users.index', ['users' => collect()]);// filter data
+//         return view('admin.users.index', ['users' => collect()]);// filter data
 //     }}
 
 // public function edit(User $user): View
@@ -411,7 +411,7 @@ public function storeStudent(Request $request)
 //     }
 //     $roles = Role::query()->pluck('name')->all();
 //     $userRoles = $user->roles->pluck('name')->all();
-//     return view('users.edit', compact('user' , 'roles' , 'userRoles'));
+//     return view('admin.users.edit', compact('user' , 'roles' , 'userRoles'));
 // }
 }
 

@@ -2,16 +2,45 @@
 
 namespace App\Models;
 
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Sanctum\HasApiTokens;
 
-class Students extends Model
+class Students extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\StudentsFactory> */
-    use HasFactory;
+    /** @use HasFactory<\Database\Factories\UserFactory> */
+    use HasFactory, Notifiable ,HasRoles ,HasApiTokens ;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
     protected $fillable = [
         'user_id', 'class_id', 'gender','address' , 'birth_date', 'note',
     ];
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var list<string>
+     */
+    protected $hidden = [
+        'remember_token',
+    ];
+
+    protected function Name(): Attribute
+    {
+        //strtolower() lcfirst() ucfirst() ucwords()
+        return Attribute::make(
+            get: fn (string $value) => ucfirst($value), // accessor to get data
+            set: fn (string $value) => lcfirst($value), // mutator to save data
+        );
+    }
+
 
     public function user()
     {

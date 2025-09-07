@@ -26,7 +26,7 @@ use App\Http\Requests\UpdateAttendancesRequest;
 //     {
 
 //         // $classes =Classes::with('students.user')->orderBy('id')->get();
-//         // return view('attandances.index',['classes'=>$classes]);
+//         // return view('admin.attandances.index',['classes'=>$classes]);
 
 // // $classes = Classes::with(['students.attendances' => function($q) {
 // //     $q->where('date', date('Y-m-d'));
@@ -48,7 +48,7 @@ use App\Http\Requests\UpdateAttendancesRequest;
 //             }
 // // $classes = Classes::whereHas('students')->with(['students.attendances' => function($data)
 // //     {$data->where('attendence_date', date('Y-m-d'));}, 'students.user'])->get();
-//     return view('attandances.index', compact('classes'));
+//     return view('admin.attandances.index', compact('classes'));
 
 //     } catch (\Throwable $th) {
 //         Log::channel("class")->error($th->getMessage() . $th->getFile() . $th->getLine());
@@ -185,7 +185,7 @@ class AttendancesController extends Controller
         //     $mark_students = $class->students->filter(function ($student) use ($select_day) {
         //     return $student->attendances->where('attendence_date', $select_day)->count() > 0;})->count();
         //     $class->mark_class_as_ok = $all_students > 0 && $mark_students == $all_students;}
-            return view('attandances.index', compact('classes', 'select_day'));
+            return view('admin.attandances.index', compact('classes', 'select_day'));
         } catch (\Throwable $th) {
             Log::channel("class")->error($th->getMessage() . $th->getFile() . $th->getLine());
             session()->flash('Error');

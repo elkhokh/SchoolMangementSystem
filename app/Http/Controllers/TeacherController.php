@@ -24,7 +24,7 @@ class TeacherController extends Controller
 {
     //use livewire
     // i make the index page just containar to shwo livewire component 
-    return view('teachers.index');
+    return view('admin.teachers.index');
 }
 
 // public function index(Request $request)
@@ -39,11 +39,11 @@ class TeacherController extends Controller
 //         if ($search && $teachers->isEmpty()) {
 //         return redirect()->route('teachers.index')->with('not_found', 'لا توجد نتائج مطابقة لبحثك');
 //         }
-//         return view('teachers.index', compact('teachers', 'search'));
+//         return view('admin.teachers.index', compact('teachers', 'search'));
 //     } catch (\Throwable $th) {
 //         Log::channel("teacher")->error($th->getMessage() . $th->getFile() . $th->getLine());
 //         session()->flash('Error');
-//         return view('teachers.index', ['teachers' => collect()]);
+//         return view('admin.teachers.index', ['teachers' => collect()]);
 //     }
 // }
 
@@ -55,8 +55,8 @@ class TeacherController extends Controller
     $roles = Role::query()->pluck('name')->all();
     // $classes = Classes::all();
     $subjects = Subjects::orderBy('id')->get();
-    return view('teachers.create', compact('roles', 'subjects'));
-    // return view('users.add_student', compact('roles'));
+    return view('admin.teachers.create', compact('roles', 'subjects'));
+    // return view('admin.users.add_student', compact('roles'));
     }
 
     /**
@@ -104,7 +104,7 @@ class TeacherController extends Controller
 
         try {
             $teacher = Teacher::with(['user', 'subject'])->findOrFail($id);
-            return view('teachers.show', compact('teacher'));
+            return view('admin.teachers.show', compact('teacher'));
         } catch (\Exception $th) {
             Log::channel('user')->error($th->getMessage()  . $th->getFile()  . $th->getLine());
             session()->flash('Error');
@@ -130,9 +130,9 @@ public function edit($id)
 
             // $roles = Role::pluck('name')->all();
             // $userRoles = $teacher->user->roles->pluck('name')->all();
-            // return view('teachers.edit', compact('teacher', 'roles', 'userRoles', 'subjects'));
+            // return view('admin.teachers.edit', compact('teacher', 'roles', 'userRoles', 'subjects'));
 
-            return view('teachers.edit', compact('teacher', 'subjects'));
+            return view('admin.teachers.edit', compact('teacher', 'subjects'));
         } catch (\Exception $th) {
             Log::channel('user')->error($th->getMessage() . $th->getFile(). $th->getLine());
             session()->flash('Error');

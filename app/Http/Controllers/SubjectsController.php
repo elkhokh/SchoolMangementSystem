@@ -27,7 +27,7 @@ class SubjectsController extends Controller
     if ($search && $subjects->isEmpty()) {
     return redirect()->route('subjects.index')->with('not_found', 'لا توجد نتائج مطابقة لبحثك')->with('search', '');
     }
-    return view('subjects.index', compact('subjects', 'search'));
+    return view('admin.subjects.index', compact('subjects', 'search'));
     } catch (\Throwable $th) {
         Log::channel("subject")->error($th->getMessage() . $th->getFile() . $th->getLine());
         session()->flash('Error');
@@ -40,7 +40,7 @@ class SubjectsController extends Controller
      */
     public function create()
     {
-        return view('subjects.create');
+        return view('admin.subjects.create');
     }
 
     /**

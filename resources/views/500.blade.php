@@ -1,24 +1,55 @@
 @extends('layouts.master2')
-@section('css')
-<!--- Internal Fontawesome css-->
-<link href="{{URL::asset('assets/plugins/fontawesome-free/css/all.min.css')}}" rel="stylesheet">
-<!---Ionicons css-->
-<link href="{{URL::asset('assets/plugins/ionicons/css/ionicons.min.css')}}" rel="stylesheet">
-<!---Internal Typicons css-->
-<link href="{{URL::asset('assets/plugins/typicons.font/typicons.css')}}" rel="stylesheet">
-<!---Internal Feather css-->
-<link href="{{URL::asset('assets/plugins/feather/feather.css')}}" rel="stylesheet">
-<!---Internal Falg-icons css-->
-<link href="{{URL::asset('assets/plugins/flag-icon-css/css/flag-icon.min.css')}}" rel="stylesheet">
-@endsection
+@section('title', '500')
+
+  <!-- fixed-top-->
 @section('content')
-		<!-- Main-error-wrapper -->
-		<div class="main-error-wrapper  page page-h ">
-			<img src="{{URL::asset('assets/img/media/500.png')}}" class="error-page" alt="error">
-			<h2>Oopps. The page you were looking for doesn't exist.</h2>
-			<h6>You may have mistyped the address or the page may have moved.</h6><a class="btn btn-outline-danger" href="{{ url('/' . $page='index') }}">Back to Home</a>
-		</div>
-		<!-- /Main-error-wrapper -->
+  <!-- ////////////////////////////////////////////////////////////////////////////-->
+  <div class="app-content content">
+    <div class="content-wrapper">
+      <div class="content-header row">
+      </div>
+      <div class="content-body">
+        <div class="col-sm-5 offset-sm-1 col-md-6 offset-md-3 col-lg-4 offset-lg-4 box-shadow-2">
+          <div class="card border-grey border-lighten-3 px-2 my-0 row">
+            <div class="card-header no-border pb-1">
+              <div class="card-body">
+                <h2 class="error-code text-center mb-2">500</h2>
+                <h3 class="text-uppercase text-center">Internal Server Error</h3>
+              </div>
+            </div>
+            <div class="card-content px-2">
+              <fieldset class="row py-1">
+
+              </fieldset>
+              <div class="row py-2">
+                <div class="col-12">
+                  <a href="{{ route('dashboard') }}" class="btn btn-primary btn-block btn-lg"><i class="la la-home"></i> Back to Home</a>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer no-border pb-1">
+              <div class="text-center">
+                <a href="#" class="btn btn-social-icon mr-1 mb-1 btn-outline-facebook">
+                  <span class="la la-facebook"></span>
+                </a>
+                <a href="#" class="btn btn-social-icon mr-1 mb-1 btn-outline-twitter">
+                  <span class="la la-twitter"></span>
+                </a>
+                <a href="#" class="btn btn-social-icon mr-1 mb-1 btn-outline-linkedin">
+                  <span class="la la-linkedin font-medium-4"></span>
+                </a>
+                <a href="#" class="btn btn-social-icon mr-1 mb-1 btn-outline-github">
+                  <span class="la la-github font-medium-4"></span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ////////////////////////////////////////////////////////////////////////////-->
+
 @endsection
-@section('js')
-@endsection
+
+

@@ -1,80 +1,123 @@
 @extends('layouts.master2')
 @section('title', 'تسجيل الدخول')
-{{-- @section('title')
-Login - نظام إدارة المدرسة
-@stop --}}
-
 @section('css')
-<!-- Sidemenu-responsive-tabs css -->
-<link href="{{URL::asset('assets/plugins/sidemenu-responsive-tabs/css/sidemenu-responsive-tabs.css')}}" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+        }
+
+        /* تظبيط الكارت بتاع تسجيل الدخول */
+        .login-card {
+            margin-top: 60px;
+            margin-bottom: 60px;
+        }
+
+        .card-header {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        .card-header img {
+            max-height: 55px;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        /* البوتون */
+        .btn-lg {
+            padding-top: 0.8rem;
+            padding-bottom: 0.8rem;
+        }
+    </style>
 @endsection
 
 @section('content')
-    <div class="container-fluid">
-        <div class="row no-gutter">
-            <!-- The content half -->
-            <div class="col-12 bg-white d-flex align-items-center justify-content-center">
-                <div class="login p-5">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-12 text-center">
-                                <div class="mb-5">
-                                    <a href="{{ url('/' . $page='Home') }}"><img src="{{URL::asset('assets/img/brand/favicon.png')}}" class="sign-favicon" alt="logo"></a>
-                                    <h1 class="main-logo1 ml-2 my-auto">نظام إدارة المدرسة</h1>
-                                </div>
-                                <div class="main-signup-header">
-                                    <h2 class="text-center">مرحبًا بك</h2>
-                                    <h5 class="font-weight-semibold text-center mb-4">تسجيل الدخول</h5>
-                                    <form method="POST" action="{{ route('login') }}">
-                                        @csrf
-                                        <div class="form-group">
-                                            <label for="email">البريد الإلكتروني</label>
-                                            <input id="email" type="email" class="form-control form-control-lg @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autofocus>
-                                            @error('email')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
+    <section class="flexbox-container">
 
-                                        <div class="form-group">
-                                            <label for="password">كلمة المرور</label>
-                                            <input id="password" type="password" class="form-control form-control-lg @error('password') is-invalid @enderror" name="password" required>
-                                            @error('password')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
+        <div class="col-12 d-flex align-items-center justify-content-center">
+            <div class="col-md-4 col-10 box-shadow-2 p-0 login-card">
+                <div class="card border-grey border-lighten-3 m-0">
+                    <div class="card-header border-0 text-center">
+                        <div class="card-title">
+                            <div class="p-1">
+                                <img src="{{ asset('/') }}app-assets/images/logo/logo-dark.png" alt="branding logo">
 
-                                        <div class="form-group row mb-3">
-                                            <div class="col-6">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                                                    <label class="form-check-label" for="remember">
-                                                        {{ __('تذكرني') }}
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-6 text-right">
-                                                <a href="{{ route('password.request') }}" class="text-primary">نسيت كلمة المرور؟</a>
-                                            </div>
-                                        </div>
-
-                                        <button type="submit" class="btn btn-main-primary btn-block btn-lg py-3">
-                                            {{ __('تسجيل الدخول') }}
-                                        </button>
-                                    </form>
-                                    <p class="text-center mt-3 text-muted">ليس لديك حساب؟ <a href="{{ route('register') }}" class="text-primary">سجل الآن</a></p>
-                                </div>
                             </div>
+                        </div>
+                        <h6 class="card-subtitle line-on-side text-muted font-small-3 pt-2">
+                            <h2> <span>تسجيل دخول    {{ $type == 'student' ? 'طالب' : ($type == 'teacher' ? 'مدرس' : 'مسؤول') }}</span></h2>
+                        </h6>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body">
+                            <form class="form-horizontal form-simple" method="POST" action="{{ route('login') }}"
+                                novalidate>
+                                @csrf
+                                <fieldset class="form-group position-relative has-icon-left mb-0">
+                                    <input type="email"
+                                        class="form-control form-control-lg input-lg @error('email') is-invalid @enderror"
+                                        id="email" name="email" value="{{ old('email') }}"
+                                        placeholder="البريد الإلكتروني">
+                                    <div class="form-control-position">
+                                        <i class="ft-user"></i>
+                                    </div>
+                                    @error('email')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </fieldset>
+                                <fieldset class="form-group position-relative has-icon-left">
+                                    <input type="password"
+                                        class="form-control form-control-lg input-lg @error('password') is-invalid @enderror"
+                                        id="password" name="password" placeholder="كلمة المرور">
+                                    <div class="form-control-position">
+                                        {{-- <i class="la la-key"></i> --}}
+                                        <i class="la la-eye" id="togglePassword"
+                                            style="cursor: pointer; margin-left: 10px;"></i>
+                                    </div>
+                                    @error('password')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </fieldset>
+                                <div class="form-group row">
+                                    <div class="col-md-6 col-12 text-center text-md-left">
+                                        <fieldset>
+                                            <input type="checkbox" id="remember-me" name="remember" class="chk-remember"
+                                                {{ old('remember') ? 'checked' : '' }}>
+                                            <label for="remember-me">تذكرني</label>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-info btn-lg btn-block"><i class="ft-unlock"></i> تسجيل
+                                    الدخول</button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 @endsection
 
 @section('js')
+    <script>
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const icon = this;
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('la-eye');
+                icon.classList.add('la-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('la-eye-slash');
+                icon.classList.add('la-eye');
+            }
+        });
+    </script>
 @endsection

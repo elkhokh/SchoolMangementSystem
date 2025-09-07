@@ -22,6 +22,6 @@ class Attandances extends Component
             })
               ->paginate(7); ;
 
-        return view('livewire.attandances', compact('classes'));
+        return view('admin.livewire.attandances', compact('classes'));
     }
 }

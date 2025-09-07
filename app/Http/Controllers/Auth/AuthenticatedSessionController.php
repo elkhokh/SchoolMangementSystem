@@ -14,21 +14,41 @@ class AuthenticatedSessionController extends Controller
     /**
      * Display the login view.
      */
-    public function create(): View
+
+    protected $guards = ['web', 'teacher', 'student'];
+
+
+     public function create(): View
     {
-        return view('auth.login');
+
+        return view('auth.selection');
+    }
+
+    public function createWith($type)
+    {
+        if(in_array($type, ['student','admin' , 'teacher'])) {
+        return view('auth.login' , compact('type'));
+        }
+        return abort(404);
     }
 
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(LoginRequest $request ): RedirectResponse
     {
         $request->authenticate();
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        if (Auth::guard('web')->check()) {
+            return redirect()->intended(route('dashboard', absolute: false));
+        }
+        if (Auth::guard('doctor')->check()) {
+            return redirect()->intended(route('teacher.dashboard.index', absolute: false));
+        }
+
+        return redirect()->intended(route('student.dashboard.index', absolute: false));
     }
 
     /**
@@ -36,12 +56,18 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        Auth::guard('web')->logout();
+
+        foreach ($this->guards as $guard) {
+            if (Auth::guard($guard)->check()) {
+                Auth::guard($guard)->logout();
+                break;
+            }
+        }
 
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect()->route('login');
     }
 }

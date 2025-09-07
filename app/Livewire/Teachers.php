@@ -24,6 +24,6 @@ class Teachers extends Component
 $user_id = User::search($this->search)->pluck('id');
 $teachers = Teacher::with(['user', 'subject'])->whereIn('user_id', $user_id)->latest('id')->paginate(7);
 
-        return view('livewire.teachers', compact('teachers'));
+        return view('admin.livewire.teachers', compact('teachers'));
     }
 }

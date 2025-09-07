@@ -25,7 +25,7 @@ class ClassSessionController extends Controller
 //         ->orderBy('start_time')
 //         ->paginate(10);
 
-//     return view('sessions.index', compact('sessions', 'search'));
+//     return view('admin.sessions.index', compact('sessions', 'search'));
 // }
 
 public function index(Request $request)
@@ -43,7 +43,7 @@ $sessions = $query->orderBy('day')->orderBy('start_time')->paginate(10);
                 ->with('not_found', 'لا توجد نتائج مطابقة لبحثك')
                 ->with('search', '');
         }
-        return view('sessions.index', compact('sessions', 'search'));
+        return view('admin.sessions.index', compact('sessions', 'search'));
     } catch (\Throwable $th) {
         Log::channel("class")->error($th->getMessage() . $th->getFile() . $th->getLine());
         session()->flash('Error');

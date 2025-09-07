@@ -29,7 +29,7 @@ class RoleController extends Controller
      */
     public function index(): View
     {
-        return view('roles.index', [
+        return view('admin.roles.index', [
             'roles' => Role::with('permissions')->orderBy('id', 'DESC')->paginate(7)
         ]);
     }
@@ -39,7 +39,7 @@ class RoleController extends Controller
      */
     public function create(): View
     {
-        return view('roles.create', [
+        return view('admin.roles.create', [
             'permissions' => Permission::all() , 'assignedPermissions' => [1 ,2 ]
         ]);
     }
@@ -70,7 +70,7 @@ class RoleController extends Controller
     public function show(Role $role)
     {
         $rolePermissions =  $role['permissions'];
-        return view('roles.show' , compact('role' , 'rolePermissions'));
+        return view('admin.roles.show' , compact('role' , 'rolePermissions'));
     }
 
     /**
@@ -87,7 +87,7 @@ class RoleController extends Controller
             ->all();
         $permission = Permission::all();
 
-        return view('roles.edit', compact('role' , 'rolePermissions' , 'permission'));
+        return view('admin.roles.edit', compact('role' , 'rolePermissions' , 'permission'));
     }
 
     /**

@@ -44,11 +44,11 @@ class StudentsController extends Controller
         if ($search && $students->isEmpty()) {
             return redirect()->route('students.index')->with('not_found', 'مش موجود الطالب دا');
         }
-        return view('students.index', compact('students', 'search', 'today'));
+        return view('admin.students.index', compact('students', 'search', 'today'));
     } catch (\Throwable $th) {
         Log::channel("user")->error($th->getMessage() . $th->getFile() . $th->getLine());
         session()->flash('Error');
-        return view('students.index', ['students' => collect()]);
+        return view('admin.students.index', ['students' => collect()]);
     }
 }
 
@@ -70,11 +70,11 @@ class StudentsController extends Controller
 //         if ($search && $students->isEmpty()) {
 //         return redirect()->route('students.index')->with('not_found', 'لا توجد نتائج مطابقة لبحثك');
 //         }
-//         return view('students.index', compact('students', 'search'));
+//         return view('admin.students.index', compact('students', 'search'));
 //     } catch (\Throwable $th) {
 //         Log::channel("user")->error($th->getMessage() . $th->getFile() . $th->getLine());
 //         session()->flash('Error');
-//         return view('students.index', ['students' => collect()]);
+//         return view('admin.students.index', ['students' => collect()]);
 //     }
 // }
 
@@ -87,8 +87,8 @@ class StudentsController extends Controller
     $roles = Role::query()->pluck('name')->all();
     // $classes = Classes::all();
     $classes = Classes::orderBy('id')->get();
-    return view('students.create', compact('roles', 'classes'));
-    // return view('users.add_student', compact('roles'));
+    return view('admin.students.create', compact('roles', 'classes'));
+    // return view('admin.users.add_student', compact('roles'));
     }
 
     /**
@@ -163,7 +163,7 @@ public function store(Request $request)
             // $student = Students::with(['user','class','attachments','teachers','subjects'])->findOrFail($id);
             $student = Students::with(['user', 'class', 'attachments'])->findOrFail($id);
             // return $student ;
-            return view('students.show', compact('student'));
+            return view('admin.students.show', compact('student'));
         } catch (\Exception $th) {
             Log::channel('user')->error($th->getMessage()  . $th->getFile()  . $th->getLine());
             session()->flash('Error');
@@ -172,7 +172,7 @@ public function store(Request $request)
         // $users = user::findOrFail($id);
         // $students  = students::where('user_id',$id)->get();
         // $attachments  = attachments::where('student_id',$id)->get();
-        // return view('students.show',compact('users','students','attachments'));
+        // return view('admin.students.show',compact('users','students','attachments'));
 
     }
 
@@ -191,7 +191,7 @@ public function edit($id)
             }
             $roles = Role::pluck('name')->all();
             $userRoles = $student->user->roles->pluck('name')->all();
-            return view('students.edit', compact('student', 'roles', 'userRoles', 'classes'));
+            return view('admin.students.edit', compact('student', 'roles', 'userRoles', 'classes'));
         } catch (\Exception $th) {
             Log::channel('user')->error($th->getMessage() . $th->getFile(). $th->getLine());
             session()->flash('Error');
